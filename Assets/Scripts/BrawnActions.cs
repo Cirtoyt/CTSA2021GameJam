@@ -7,12 +7,17 @@ public class BrawnActions : MonoBehaviour
 {
     public LayerMask enemyLayer;
 
-    private Vector3 LightAtkCentre;
-
+    private float LightAtkCentre;
+    private Vector3 LightAtkSize;
+    bool m_Started;
 
     void Start()
     {
-        LightAtkCentre = (0, 0, 1);
+        enemyLayer = LayerMask.GetMask("Enemy");
+        LightAtkCentre = 1;
+        LightAtkSize = new Vector3(1, 2, 1);
+
+        m_Started = true;
     }
 
     void Update()
@@ -23,8 +28,15 @@ public class BrawnActions : MonoBehaviour
     public void OnRegularAttack(InputValue value)
     {
         Debug.Log(name + " regular attacks!");
-        Collider[] enemiesHit = Physics.OverlapBox(gameObject.transform.position + (LightAtkCentre), transform.localScale / 2, Quaternion.identity, enemyLayer);
-        Debug.Log(enemiesHit);
+        Collider[] enemiesHit = Physics.OverlapBox(transform.position + (transform.forward * LightAtkCentre), LightAtkSize, Quaternion.LookRotation(transform.forward), enemyLayer);
+
+        int i = 0;
+        while (i < enemiesHit.Length)
+        {
+            Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
+            
+            i++;
+        }
     }
 
     public void OnHeavyAttack(InputValue value)
@@ -40,5 +52,12 @@ public class BrawnActions : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         Debug.Log(name + " uses an interaction.");
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        if (m_Started)
+            Gizmos.DrawWireCube(transform.position + (transform.forward * LightAtkCentre), LightAtkSize);
     }
 }
