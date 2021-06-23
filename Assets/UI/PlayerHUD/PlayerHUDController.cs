@@ -37,8 +37,8 @@ public class PlayerHUDController : MonoBehaviour
 
     private void Start()
     {
-        player1 = GameObject.FindGameObjectWithTag("Player1").transform;
-        player2 = GameObject.FindGameObjectWithTag("Player2").transform;
+        player1 = GameObject.FindGameObjectWithTag("Brains").transform;
+        player2 = GameObject.FindGameObjectWithTag("Brawn").transform;
         player1Health = player1MaxHealth;
         player2Health = player2MaxHealth;
         player1HeavyAttack = player1MaxHeavyAttack;
