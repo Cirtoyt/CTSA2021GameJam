@@ -12,6 +12,7 @@ public class PlayerSetup : MonoBehaviour
             // Setup Brains
 
             name = "Brains";
+            tag = "Brains";
             GetComponent<MeshRenderer>().material.color = new Color(0, 0, 255);
             gameObject.AddComponent<BrainsActions>();
 
@@ -22,6 +23,7 @@ public class PlayerSetup : MonoBehaviour
             // Setup Brawn
 
             name = "Brawn";
+            tag = "Brawn";
             GetComponent<MeshRenderer>().material.color = new Color(255, 0, 0);
             gameObject.AddComponent<BrawnActions>();
 

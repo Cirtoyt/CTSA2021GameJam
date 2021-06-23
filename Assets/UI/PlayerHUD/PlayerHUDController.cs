@@ -70,6 +70,20 @@ public class PlayerHUDController : MonoBehaviour
         }
     }
 
+    public void DealDamage(int playerNumber, float damage)
+    {
+        if (playerNumber == 1)
+        {
+            float newHP = player1Health - damage;
+            UpdatePlayer1HealthGuage(newHP, player1MaxHealth);
+        }
+        else if (playerNumber == 2)
+        {
+            float newHP = player2Health - damage;
+            UpdatePlayer2HealthGuage(newHP, player2MaxHealth);
+        }
+    }
+
     public void UpdatePlayer1HeavyAttackGuage(float newAmount, float maxAmount)
     {
         StartCoroutine(UpdateSlider(player1HeavyAttackGuage, newAmount, maxAmount));
