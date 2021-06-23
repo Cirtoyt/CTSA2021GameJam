@@ -1567,8 +1567,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea07841e1634d449b2099ad1a89da75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1Health: {fileID: 6036579884967768966}
-  player2Health: {fileID: 6036579886680921487}
+  barSmoothingSpeed: 1
+  ultimateComboDistance: 3
+  player1MaxHealth: 100
+  player2MaxHealth: 100
+  player1MaxHeavyAttack: 50
+  player2MaxHeavyAttack: 50
+  maxUltimate: 100
+  player1HealthGuage: {fileID: 6036579884967768966}
+  player2HealthGuage: {fileID: 6036579886680921487}
   player1HeavyAttackGuage: {fileID: 6036579884938161461}
   player2HeavyAttackGuage: {fileID: 6036579886611332138}
   ultLeftBar: {fileID: 6036579886219038588}
