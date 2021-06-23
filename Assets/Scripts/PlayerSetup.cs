@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class PlayerSetup : MonoBehaviour
 {
-    
+    private PlayerHUDController hudCtrlr;
+
     void Start()
     {
+        hudCtrlr = FindObjectOfType<PlayerHUDController>();
+
         if (PlayerInstanceManager.instance.players.Count == 0)
         {
             // Setup Brains
 
             name = "Brains";
             tag = "Brains";
+            hudCtrlr.SetPlayer1(transform);
             GetComponent<MeshRenderer>().material.color = new Color(0, 0, 255);
             gameObject.AddComponent<BrainsActions>();
 
@@ -24,6 +28,7 @@ public class PlayerSetup : MonoBehaviour
 
             name = "Brawn";
             tag = "Brawn";
+            hudCtrlr.SetPlayer2(transform);
             GetComponent<MeshRenderer>().material.color = new Color(255, 0, 0);
             gameObject.AddComponent<BrawnActions>();
 

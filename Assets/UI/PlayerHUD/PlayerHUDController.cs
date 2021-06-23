@@ -14,12 +14,12 @@ public class PlayerHUDController : MonoBehaviour
     }
 
     [SerializeField] private float barSmoothingSpeed = 1;
-    [SerializeField] private float ultimateComboDistance;
-    [SerializeField] private float player1MaxHealth;
-    [SerializeField] private float player2MaxHealth;
-    [SerializeField] private float player1MaxHeavyAttack;
-    [SerializeField] private float player2MaxHeavyAttack;
-    [SerializeField] private float maxUltimate;
+    [SerializeField] private float ultimateComboDistance = 3;
+    [SerializeField] private float player1MaxHealth = 100;
+    [SerializeField] private float player2MaxHealth = 100;
+    [SerializeField] private float player1MaxHeavyAttack = 50;
+    [SerializeField] private float player2MaxHeavyAttack = 50;
+    [SerializeField] private float maxUltimate = 100;
     [SerializeField] private Slider player1HealthGuage;
     [SerializeField] private Slider player2HealthGuage;
     [SerializeField] private Slider player1HeavyAttackGuage;
@@ -37,13 +37,21 @@ public class PlayerHUDController : MonoBehaviour
 
     private void Start()
     {
-        player1 = GameObject.FindGameObjectWithTag("Brains").transform;
-        player2 = GameObject.FindGameObjectWithTag("Brawn").transform;
         player1Health = player1MaxHealth;
         player2Health = player2MaxHealth;
         player1HeavyAttack = player1MaxHeavyAttack;
         player2HeavyAttack = player2MaxHeavyAttack;
         ultimate = maxUltimate;
+    }
+
+    public void SetPlayer1(Transform t)
+    {
+        player1 = t;
+    }
+
+    public void SetPlayer2(Transform t)
+    {
+        player2 = t;
     }
 
     public void UpdatePlayer1HealthGuage(float newHP, float maxHP)
