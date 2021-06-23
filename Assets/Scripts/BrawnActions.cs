@@ -5,9 +5,14 @@ using UnityEngine.InputSystem;
 
 public class BrawnActions : MonoBehaviour
 {
+    public LayerMask enemyLayer;
+
+    private Vector3 LightAtkCentre;
+
+
     void Start()
     {
-        
+        LightAtkCentre = (0, 0, 1);
     }
 
     void Update()
@@ -18,6 +23,8 @@ public class BrawnActions : MonoBehaviour
     public void OnRegularAttack(InputValue value)
     {
         Debug.Log(name + " regular attacks!");
+        Collider[] enemiesHit = Physics.OverlapBox(gameObject.transform.position + (LightAtkCentre), transform.localScale / 2, Quaternion.identity, enemyLayer);
+        Debug.Log(enemiesHit);
     }
 
     public void OnHeavyAttack(InputValue value)
