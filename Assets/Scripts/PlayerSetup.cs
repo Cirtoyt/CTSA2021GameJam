@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerSetup : MonoBehaviour
 {
-    
+    public Material brainsMaterial;
+    public Material brawnMaterial;
+
     void Start()
     {
         if (PlayerInstanceManager.instance.players.Count == 0)
@@ -13,7 +15,7 @@ public class PlayerSetup : MonoBehaviour
 
             name = "Brains";
             tag = "Brains";
-            GetComponent<MeshRenderer>().material.color = new Color(0, 0, 255);
+            GetComponent<MeshRenderer>().material = brainsMaterial;
             gameObject.AddComponent<BrainsActions>();
 
             // Setup model & animator
@@ -24,7 +26,7 @@ public class PlayerSetup : MonoBehaviour
 
             name = "Brawn";
             tag = "Brawn";
-            GetComponent<MeshRenderer>().material.color = new Color(255, 0, 0);
+            GetComponent<MeshRenderer>().material = brawnMaterial;
             gameObject.AddComponent<BrawnActions>();
 
             // Setup model & animator
