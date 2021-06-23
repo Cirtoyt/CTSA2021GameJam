@@ -9,15 +9,15 @@ public class BrawnActions : MonoBehaviour
 
     private float LightAtkCentre;
     private Vector3 LightAtkSize;
-    bool m_Started;
+    private int LightAtkDamage;
 
     void Start()
     {
         enemyLayer = LayerMask.GetMask("Enemy");
+
         LightAtkCentre = 1;
         LightAtkSize = new Vector3(1, 2, 1);
-
-        m_Started = true;
+        LightAtkDamage = 5;
     }
 
     void Update()
@@ -34,7 +34,8 @@ public class BrawnActions : MonoBehaviour
         while (i < enemiesHit.Length)
         {
             Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
-            
+            enemiesHit[i].GetComponent<Base_Enemy>().gotHit(LightAtkDamage);
+
             i++;
         }
     }
@@ -52,12 +53,5 @@ public class BrawnActions : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         Debug.Log(name + " uses an interaction.");
-    }
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        if (m_Started)
-            Gizmos.DrawWireCube(transform.position + (transform.forward * LightAtkCentre), LightAtkSize);
     }
 }
