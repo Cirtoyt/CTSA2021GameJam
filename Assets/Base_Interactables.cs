@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class Base_Interactables : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private LayerMask playerLayerMask;
+    private Vector3 objectSize;
+    private bool inRange;
+
+    public float interactableRadius;
+
     void Start()
     {
-        
+        playerLayerMask = LayerMask.GetMask("Player");
+        objectSize = GetComponent<Collider>().bounds.size;
+
+        SphereCollider interactionTrigger = gameObject.AddComponent<SphereCollider>();
+        interactionTrigger.isTrigger = true;
+        interactionTrigger.radius += interactableRadius; 
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+       if (other.gameObject.layer == playerLayerMask)
+       {
+            // Display UI prompt
+       }
     }
 }
