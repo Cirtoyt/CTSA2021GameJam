@@ -8,8 +8,8 @@ public class Enemy_ChaserAI : MonoBehaviour
     public NavMeshAgent agent;
 
     Vector3 enemyPos;
-    public GameObject player1;
-    public GameObject player2;
+    private GameObject player1;
+    private GameObject player2;
 
     public LayerMask groundLayer, playerLayer;
 
@@ -26,10 +26,14 @@ public class Enemy_ChaserAI : MonoBehaviour
 
     public float attackRange;
     private bool playerInAttackRange;
-    void Awake()
+    void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         enemyPos = transform.position;
+
+        player1 = GameObject.FindGameObjectWithTag("Brains");
+        player2 = GameObject.FindGameObjectWithTag("Brawn");
+
     }
 
     void Update()

@@ -512,14 +512,9 @@ MonoBehaviour:
     m_Bits: 0
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
-  walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 0
-  attackDelay: 0
-  attackRange: 0
-  player1Distance: 0
-  player2Distance: 0
-  playerInAttackRange: 0
+    m_Bits: 1024
+  attackDelay: 4
+  attackRange: 0.7
 --- !u!195 &755804926
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -554,7 +549,7 @@ GameObject:
   - component: {fileID: 924562504}
   - component: {fileID: 924562503}
   - component: {fileID: 924562502}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -650,7 +645,7 @@ GameObject:
   - component: {fileID: 1184098816}
   - component: {fileID: 1184098815}
   - component: {fileID: 1184098814}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
