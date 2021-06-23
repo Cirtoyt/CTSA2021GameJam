@@ -21,10 +21,6 @@ public class Enemy_ChaserAI : MonoBehaviour
     }
     private target currentTarget;
 
-    public Vector3 walkPoint;
-    private bool walkPointSet;
-    public float walkPointRange;
-
     public float attackDelay;
     private bool hasAttacked;
 
