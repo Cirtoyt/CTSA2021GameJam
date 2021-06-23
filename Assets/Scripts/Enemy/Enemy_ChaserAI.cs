@@ -38,29 +38,40 @@ public class Enemy_ChaserAI : MonoBehaviour
 
     void Update()
     {
-        //Targets player 1 - Distance to player 1 is smaller
-        if (Vector3.Distance(enemyPos, player1.transform.position) < Vector3.Distance(enemyPos, player2.transform.position))
+        if (player1 == null)
         {
-            currentTarget = target.PLAYER1;
+            player1 = GameObject.FindGameObjectWithTag("Brains");
         }
-        //Targets player 2 - Distance to player 2 is smaller
-        else if (Vector3.Distance(enemyPos, player2.transform.position) < Vector3.Distance(enemyPos, player1.transform.position))
+        if (player2 == null)
         {
-            currentTarget = target.PLAYER2;
+            player2 = GameObject.FindGameObjectWithTag("Brawn");
         }
-        //Distances between 2 players and enemy are equal
-        else
+        if (player1 != null && player2 != null)
         {
-            currentTarget = target.PLAYER1;
-        }
+            //Targets player 1 - Distance to player 1 is smaller
+            if (Vector3.Distance(enemyPos, player1.transform.position) < Vector3.Distance(enemyPos, player2.transform.position))
+            {
+                currentTarget = target.PLAYER1;
+            }
+            //Targets player 2 - Distance to player 2 is smaller
+            else if (Vector3.Distance(enemyPos, player2.transform.position) < Vector3.Distance(enemyPos, player1.transform.position))
+            {
+                currentTarget = target.PLAYER2;
+            }
+            //Distances between 2 players and enemy are equal
+            else
+            {
+                currentTarget = target.PLAYER1;
+            }
 
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
+            playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerLayer);
 
-        //Function calls for enemy state
-        chasePlayer(currentTarget);
-        if (playerInAttackRange)
-        {
-            attackPlayer(currentTarget);
+            //Function calls for enemy state
+            chasePlayer(currentTarget);
+            if (playerInAttackRange)
+            {
+                attackPlayer(currentTarget);
+            } 
         }
     }
 

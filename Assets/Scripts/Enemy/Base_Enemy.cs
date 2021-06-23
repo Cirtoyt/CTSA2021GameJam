@@ -6,7 +6,7 @@ public class Base_Enemy : MonoBehaviour
 {
     public int health;
 
-    private void gotHit(int damage_taken)
+    public void gotHit(int damage_taken)
     {
         health -= damage_taken;
         if (health <= 0)
