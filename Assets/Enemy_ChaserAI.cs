@@ -29,7 +29,7 @@ public class Enemy_ChaserAI : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        enemyPos = this.gameObject.transform.position;
+        enemyPos = transform.position;
     }
 
     void Update()
@@ -37,20 +37,20 @@ public class Enemy_ChaserAI : MonoBehaviour
         //Targets player 1 - Distance to player 1 is smaller
         if (Vector3.Distance(enemyPos, player1.transform.position) < Vector3.Distance(enemyPos, player2.transform.position))
         {
-            bool targetPlayer1 = true;
-            bool targetPlayer2 = false;
+            targetPlayer1 = true;
+            targetPlayer2 = false;
         }
         //Targets player 2 - Distance to player 2 is smaller
         else if (Vector3.Distance(enemyPos, player2.transform.position) < Vector3.Distance(enemyPos, player1.transform.position))
         {
-            bool targetPlayer1 = false;
-            bool targetPlayer2 = true;
+            targetPlayer1 = false;
+            targetPlayer2 = true;
         }
         //Distances between 2 players and enemy are equal
         else
         {
-            bool targetPlayer1 = true;
-            bool targetPlayer2 = false;
+            targetPlayer1 = true;
+            targetPlayer2 = false;
         }
 
         chasePlayer(targetPlayer1, targetPlayer2);
