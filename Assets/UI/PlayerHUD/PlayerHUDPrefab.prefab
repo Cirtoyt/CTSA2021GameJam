@@ -387,7 +387,7 @@ GameObject:
   - component: {fileID: 6036579884938161460}
   - component: {fileID: 6036579884938161461}
   m_Layer: 5
-  m_Name: Player1UltBar
+  m_Name: Player1HeavyAttackBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1465,8 +1465,9 @@ GameObject:
   - component: {fileID: 6036579885620500757}
   - component: {fileID: 6036579885620500756}
   - component: {fileID: 6036579885620500759}
+  - component: {fileID: 8021589413911019908}
   m_Layer: 5
-  m_Name: GamePlayCanvas
+  m_Name: PlayerHUDPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1554,6 +1555,24 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8021589413911019908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036579885620500758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cea07841e1634d449b2099ad1a89da75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1Health: {fileID: 6036579884967768966}
+  player2Health: {fileID: 6036579886680921487}
+  player1HeavyAttackGuage: {fileID: 6036579884938161461}
+  player2HeavyAttackGuage: {fileID: 6036579886611332138}
+  ultLeftBar: {fileID: 6036579886219038588}
+  ultRightBar: {fileID: 6036579885737883265}
 --- !u!1 &6036579885727652847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,7 +2743,7 @@ GameObject:
   - component: {fileID: 6036579886611332180}
   - component: {fileID: 6036579886611332138}
   m_Layer: 5
-  m_Name: Player1UltBar
+  m_Name: Player2HeavyAttackBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2812,7 +2831,7 @@ GameObject:
   - component: {fileID: 6036579886680921481}
   - component: {fileID: 6036579886680921487}
   m_Layer: 5
-  m_Name: Player1HealthBar
+  m_Name: Player2HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
