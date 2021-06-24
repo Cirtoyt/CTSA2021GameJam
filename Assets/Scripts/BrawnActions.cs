@@ -37,8 +37,8 @@ public class BrawnActions : MonoBehaviour
 
         myRigidBody = gameObject.GetComponent<Rigidbody>();
         dashing = false;
-        heavyAtkSpeed = 0.5f;
-        heavyAtkRange = 12;
+        heavyAtkSpeed = 0.75f;
+        heavyAtkRange = 9;
         heavyAtkDamage = 0;
 
 
@@ -102,7 +102,7 @@ public class BrawnActions : MonoBehaviour
             {
                 Debug.Log("Hit : " + collision.gameObject.name);
                 collision.gameObject.GetComponent<Base_Enemy>().gotHit(heavyAtkDamage);
-                Vector3 knockbackForce = (collision.gameObject.transform.position - transform.position).normalized * 500f;
+                Vector3 knockbackForce = (collision.gameObject.transform.position - transform.position).normalized * 250f;
                 collision.gameObject.GetComponent<Base_Enemy>().knockBack(knockbackForce);
             }
         }
