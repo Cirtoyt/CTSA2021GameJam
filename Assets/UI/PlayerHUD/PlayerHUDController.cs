@@ -8,8 +8,7 @@ public class PlayerHUDController : MonoBehaviour
     public enum UltimateTypes : int
     {
         Combo,
-        Brains,
-        Brawn,
+        Single,
         NotReady,
     }
 
@@ -112,16 +111,17 @@ public class PlayerHUDController : MonoBehaviour
         return false;
     }
 
+    public void ResetPlayer1HeavyAttackGauge()
+    {
+        player1HeavyAttack = 0;
+        StartCoroutine(UpdateSlider(player1HeavyAttackGauge, player1HeavyAttack, player1MaxHeavyAttack));
+    }
+
     public void UpdatePlayer2HeavyAttackGauge(float additionalAmount)
     {
         if ((player2HeavyAttack += additionalAmount) > player2MaxHeavyAttack)
         {
             player2HeavyAttack = player2MaxHeavyAttack;
-        }
-
-        else if ((player2HeavyAttack += additionalAmount) <= 0)
-        {
-            player2HeavyAttack = 0;
         }
 
         StartCoroutine(UpdateSlider(player2HeavyAttackGauge, player2HeavyAttack, player2MaxHeavyAttack));
@@ -134,6 +134,12 @@ public class PlayerHUDController : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void ResetPlayer2HeavyAttackGauge()
+    {
+        player2HeavyAttack = 0;
+        StartCoroutine(UpdateSlider(player2HeavyAttackGauge, player2HeavyAttack, player2MaxHeavyAttack));
     }
 
     public void UpdateUltGauge(float additionalAmount)
@@ -157,24 +163,27 @@ public class PlayerHUDController : MonoBehaviour
         }
     }
 
-    public UltimateTypes CheckUltimateReady(int playerNumber)
+    public UltimateTypes CheckUltimateReady()
     {
-        if (ultimate >= 1)
+        if (ultimate >= maxUltimate)
         {
             if (Vector3.Distance(player1.position, player2.position) <= ultimateComboDistance)
             {
                 return UltimateTypes.Combo;
             }
-            else if (playerNumber == 1)
+            else
             {
-                return UltimateTypes.Brains;
-            }
-            else if (playerNumber == 2)
-            {
-                return UltimateTypes.Brawn;
+                return UltimateTypes.Single;
             }
         }
         return UltimateTypes.NotReady;
+    }
+
+    public void ResetUltimateGauge()
+    {
+        ultimate = 0;
+        StartCoroutine(UpdateSlider(ultLeftBar, ultimate, maxUltimate));
+        StartCoroutine(UpdateSlider(ultRightBar, ultimate, maxUltimate));
     }
 
     private IEnumerator UpdateSlider(Slider slider, float newAmount, float totalAmount)

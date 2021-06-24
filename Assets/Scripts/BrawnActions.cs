@@ -89,17 +89,8 @@ public class BrawnActions : MonoBehaviour
 
             dashing = true;
             StartCoroutine(Dash());
-            hudctrlr.UpdatePlayer2HeavyAttackGauge(-hudctrlr.player2MaxHeavyAttack);
-            //Invoke("HeavyAttack", 0.0f);
+            hudctrlr.ResetPlayer2HeavyAttackGauge();
         }
-    }
-
-    private void HeavyAttack()
-    {
-        // Tell animator to animate attack
-        // Wait for attack completion
-        // Deal damage
-        busy = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -124,27 +115,42 @@ public class BrawnActions : MonoBehaviour
 
     public void OnUltimateAttack(InputValue value)
     {
-        if (!busy && true) // replace true with if ultimate guage is charged
+        if (!busy && hudctrlr.CheckUltimateReady() != PlayerHUDController.UltimateTypes.NotReady) // replace true with if ultimate guage is charged
         {
-            Debug.Log(name + " uses an ultimate!!");
-            // Check if other player is nearby
-
-            // Otherwise do solo slam
-            Collider[] enemiesHit = Physics.OverlapSphere(transform.position, SoloUltRadius, enemyLayer);
-
-            int i = 0;
-            while (i < enemiesHit.Length)
+            if (hudctrlr.CheckUltimateReady() == PlayerHUDController.UltimateTypes.Single)
             {
-                Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
-                enemiesHit[i].GetComponent<Base_Enemy>().gotHit(SoloUltDamage);
+                Debug.Log(name + " uses their solo ultimate!!");
 
-                i++;
+                busy = true;
+
+                // You should move this into another function that is called by an event in the ult's animation
+                // and have here just a call to trigger the animation, all of course once the animation is setup
+
+                Collider[] enemiesHit = Physics.OverlapSphere(transform.position, SoloUltRadius, enemyLayer);
+
+                int i = 0;
+                while (i < enemiesHit.Length)
+                {
+                    Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
+                    enemiesHit[i].GetComponent<Base_Enemy>().gotHit(SoloUltDamage);
+
+                    i++;
+                }
+
+                busy = false;
+            }
+            else if (hudctrlr.CheckUltimateReady() == PlayerHUDController.UltimateTypes.Combo)
+            {
+                Debug.Log(name + " triggers the combo ultimate with Brains!!!");
+
+                GameObject brains = GameObject.FindGameObjectWithTag("Brains");
+                brains.GetComponent<BrainsActions>().busy = true;
+                brains.GetComponent<PlayerMovement>().canMove = false;
+
+                // Do something co-ordinated with Brains :S
             }
 
-            busy = true;
-            StartCoroutine(StartAttackDelay(regularAttackDelay));
-
-            // Reset ultimate gauge charge
+            hudctrlr.ResetUltimateGauge();
         }
     }
 
@@ -175,6 +181,6 @@ public class BrawnActions : MonoBehaviour
         gameObject.GetComponent<PlayerMovement>().canMove = true;
         dashing = false;
 
-        StartCoroutine(StartAttackDelay(heavyAttackDelay));
+        busy = false;
     }
 }
