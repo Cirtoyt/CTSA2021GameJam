@@ -6,15 +6,20 @@ public class PlayerSetup : MonoBehaviour
 {
     public Material brainsMaterial;
     public Material brawnMaterial;
+    
+    private PlayerHUDController hudCtrlr;
 
     void Start()
     {
+        hudCtrlr = FindObjectOfType<PlayerHUDController>();
+
         if (PlayerInstanceManager.instance.players.Count == 0)
         {
             // Setup Brains
 
             name = "Brains";
             tag = "Brains";
+            hudCtrlr.SetPlayer1(transform);
             GetComponent<MeshRenderer>().material = brainsMaterial;
             gameObject.AddComponent<BrainsActions>();
 
@@ -26,6 +31,7 @@ public class PlayerSetup : MonoBehaviour
 
             name = "Brawn";
             tag = "Brawn";
+            hudCtrlr.SetPlayer2(transform);
             GetComponent<MeshRenderer>().material = brawnMaterial;
             gameObject.AddComponent<BrawnActions>();
 
