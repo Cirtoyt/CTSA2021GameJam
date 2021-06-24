@@ -118,6 +118,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
+  attackDamage: 10
   attackDelay: 1
   attackRange: 0.7
 --- !u!195 &3249794210037610674

@@ -22,6 +22,7 @@ public class Enemy_ChaserAI : MonoBehaviour
     }
     private target currentTarget;
 
+    public float attackDamage;
     public float attackDelay;
     private bool canAttack;
 
@@ -63,6 +64,10 @@ public class Enemy_ChaserAI : MonoBehaviour
                 {
                     currentTarget = target.PLAYER1;
                 }
+                else
+                {
+                    currentTarget = target.PLAYER2;
+                }
             }
             //Targets player 2 - Distance to player 2 is smaller
             else if (Vector3.Distance(enemyPos, player2.transform.position) < Vector3.Distance(enemyPos, player1.transform.position))
@@ -70,6 +75,10 @@ public class Enemy_ChaserAI : MonoBehaviour
                 if (HUD.GetComponent<PlayerHUDController>().player2Health > 0)
                 {
                     currentTarget = target.PLAYER2;
+                }
+                else
+                {
+                    currentTarget = target.PLAYER1;
                 }
             }
             //Distances between 2 players and enemy are equal
@@ -120,12 +129,12 @@ public class Enemy_ChaserAI : MonoBehaviour
             if (currentTarget == target.PLAYER1)
             {
                 Debug.Log("Attacking Player Brains");
-                HUD.GetComponent<PlayerHUDController>().DealDamage(1, 2.0f);
+                HUD.GetComponent<PlayerHUDController>().DealDamage(1, attackDamage);
             }
             else if (currentTarget == target.PLAYER2)
             {
                 Debug.Log("Attacking Player Brawn");
-                HUD.GetComponent<PlayerHUDController>().DealDamage(2, 2.0f);
+                HUD.GetComponent<PlayerHUDController>().DealDamage(2, attackDamage);
             }
             //
             canAttack = false;
