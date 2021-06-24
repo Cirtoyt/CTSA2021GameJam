@@ -6,13 +6,16 @@ using UnityEngine.AI;
 public class Enemy_ChaserAI : MonoBehaviour
 {
     public NavMeshAgent agent;
+    public LayerMask groundLayer, playerLayer;
+    public float attackDamage;
+    public float attackDelay;
+    public float attackRange;
 
-    Vector3 enemyPos;
+    private Vector3 enemyPos;
     private GameObject player1;
     private GameObject player2;
-    GameObject HUD;
-
-    public LayerMask groundLayer, playerLayer;
+    private GameObject HUD;
+    private Animator anim;
 
     //Which player is AI targeting (closest player)
     private enum target
@@ -20,14 +23,12 @@ public class Enemy_ChaserAI : MonoBehaviour
         PLAYER1,
         PLAYER2
     }
+
     private target currentTarget;
-
-    public float attackDamage;
-    public float attackDelay;
     private bool canAttack;
-
-    public float attackRange;
     private bool playerInAttackRange;
+    private int runMode;
+
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -36,9 +37,11 @@ public class Enemy_ChaserAI : MonoBehaviour
         player1 = GameObject.FindGameObjectWithTag("Brains");
         player2 = GameObject.FindGameObjectWithTag("Brawn");
         HUD = GameObject.Find("PlayerHUDPrefab");
+        anim = GetComponent<Animator>();
 
         canAttack = true;
-
+        runMode = Random.Range(1, 3);
+        anim.SetInteger("runMode", runMode);
     }
 
     private void Update()
@@ -100,6 +103,7 @@ public class Enemy_ChaserAI : MonoBehaviour
 
     private void chasePlayer(target currentTarget)
     {
+        anim.SetBool("isRunning", true);
         if (currentTarget == target.PLAYER1)
         {
             agent.SetDestination(player1.transform.position);
@@ -112,6 +116,7 @@ public class Enemy_ChaserAI : MonoBehaviour
     private void attackPlayer(target currentTarget)
     {
         //Enemy stops moving
+        anim.SetBool("isRunning", false);
         agent.SetDestination(transform.position);
 
         if (currentTarget == target.PLAYER1)
