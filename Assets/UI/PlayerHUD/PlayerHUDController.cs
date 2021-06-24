@@ -35,6 +35,11 @@ public class PlayerHUDController : MonoBehaviour
     private float player1HeavyAttack;
     private float player2HeavyAttack;
     private float ultimate;
+    private bool player1HealthGaugeIsUpdating;
+    private bool player2HealthGaugeIsUpdating;
+    private bool player1HeavyAttackGaugeIsUpdating;
+    private bool player2HeavyAttackGaugeIsUpdating;
+    private bool ultimateGaugeIsUpdating;
 
     private void Start()
     {
