@@ -105,6 +105,11 @@ public class BrawnActions : MonoBehaviour
                 Vector3 knockbackForce = (collision.gameObject.transform.position - transform.position).normalized * 250f;
                 collision.gameObject.GetComponent<Base_Enemy>().knockBack(knockbackForce);
             }
+
+            else if(collision.gameObject.layer == )
+            {
+
+            }
         }
     }
 
