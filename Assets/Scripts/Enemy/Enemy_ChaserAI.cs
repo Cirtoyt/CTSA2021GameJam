@@ -10,6 +10,7 @@ public class Enemy_ChaserAI : MonoBehaviour
     Vector3 enemyPos;
     private GameObject player1;
     private GameObject player2;
+    GameObject HUD;
 
     public LayerMask groundLayer, playerLayer;
 
@@ -21,22 +22,26 @@ public class Enemy_ChaserAI : MonoBehaviour
     }
     private target currentTarget;
 
+    public float attackDamage;
     public float attackDelay;
-    private bool hasAttacked;
+    private bool canAttack;
 
     public float attackRange;
     private bool playerInAttackRange;
-    void Start()
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         enemyPos = transform.position;
 
         player1 = GameObject.FindGameObjectWithTag("Brains");
         player2 = GameObject.FindGameObjectWithTag("Brawn");
+        HUD = GameObject.Find("PlayerHUDPrefab");
+
+        canAttack = true;
 
     }
 
-    void Update()
+    private void Update()
     {
         if (player1 == null)
         {
@@ -46,17 +51,35 @@ public class Enemy_ChaserAI : MonoBehaviour
         {
             player2 = GameObject.FindGameObjectWithTag("Brawn");
         }
+        if (HUD == null)
+        {
+            HUD = GameObject.Find("PlayerHUDPrefab");
+        }
         if (player1 != null && player2 != null)
         {
             //Targets player 1 - Distance to player 1 is smaller
             if (Vector3.Distance(enemyPos, player1.transform.position) < Vector3.Distance(enemyPos, player2.transform.position))
             {
-                currentTarget = target.PLAYER1;
+                if (HUD.GetComponent<PlayerHUDController>().player1Health > 0)
+                {
+                    currentTarget = target.PLAYER1;
+                }
+                else
+                {
+                    currentTarget = target.PLAYER2;
+                }
             }
             //Targets player 2 - Distance to player 2 is smaller
             else if (Vector3.Distance(enemyPos, player2.transform.position) < Vector3.Distance(enemyPos, player1.transform.position))
             {
-                currentTarget = target.PLAYER2;
+                if (HUD.GetComponent<PlayerHUDController>().player2Health > 0)
+                {
+                    currentTarget = target.PLAYER2;
+                }
+                else
+                {
+                    currentTarget = target.PLAYER1;
+                }
             }
             //Distances between 2 players and enemy are equal
             else
@@ -100,28 +123,28 @@ public class Enemy_ChaserAI : MonoBehaviour
             transform.LookAt(player2.transform);
         }
 
-        if (!hasAttacked)
+        if (canAttack)
         {
             //Attack code
             if (currentTarget == target.PLAYER1)
             {
-                Debug.Log("Attacking Player 1");
-                GameObject HUD = GameObject.Find("PlayerHUDPrefab");
-                HUD.GetComponent<PlayerHUDController>().DealDamage(1, 2.0f);
+                Debug.Log("Attacking Player Brains");
+                HUD.GetComponent<PlayerHUDController>().DealDamage(1, attackDamage);
             }
             else if (currentTarget == target.PLAYER2)
             {
-                Debug.Log("Attacking Player 2");
-                GameObject HUD = GameObject.Find("PlayerHUDPrefab");
-                HUD.GetComponent<PlayerHUDController>().DealDamage(1, 2.0f);
+                Debug.Log("Attacking Player Brawn");
+                HUD.GetComponent<PlayerHUDController>().DealDamage(2, attackDamage);
             }
             //
-            hasAttacked = true;
-            Invoke(nameof(resetAttack), attackDelay);
+            canAttack = false;
+            StartCoroutine(resetAttack(attackDelay));
         }
     }
-    private void resetAttack()
+    private IEnumerator resetAttack(float attackDelay)
     {
-        hasAttacked = false;
+        yield return new WaitForSeconds(attackDelay);
+
+        canAttack = true;
     }
 }

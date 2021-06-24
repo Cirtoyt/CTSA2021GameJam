@@ -7,16 +7,15 @@ public class BrainsActions : MonoBehaviour
 {
     public bool busy = false;
     [SerializeField] private float regularAttackDelay = 0.35f;
-    [SerializeField] private float heavyAttackDelay;
+    [SerializeField] private float regularAttackDamage = 20;
+    [SerializeField] private float heavyAttackDamage = 50;
 
-    void Start()
+    private PlayerHUDController hudctrlr;
+
+    private void Start()
     {
         busy = false;
-    }
-
-    void Update()
-    {
-        
+        hudctrlr = FindObjectOfType<PlayerHUDController>();
     }
 
     public void OnRegularAttack(InputValue value)
@@ -26,12 +25,15 @@ public class BrainsActions : MonoBehaviour
             Debug.Log(name + " regular attacks!");
             busy = true;
             StartCoroutine(StartAttackDelay(regularAttackDelay));
+            // Note: Move damage dealing to enemy & ability gauge charging to animation event on moment of impact
+            hudctrlr.UpdatePlayer1HeavyAttackGauge(15);
+            hudctrlr.UpdateUltGauge(5);
         }
     }
 
     public void OnHeavyAttack(InputValue value)
     {
-        if (!busy && true) // replace true with if heavy attack guage is charged
+        if (!busy && hudctrlr.CheckPlayer1HeavyAttackReady()) // replace true with if heavy attack guage is charged
         {
             Debug.Log(name + " heavy attacks!");
             busy = true;
@@ -43,7 +45,7 @@ public class BrainsActions : MonoBehaviour
     {
         // Tell animator to animate attack
         // Wait for attack completion
-        // Deal damage
+        // Deal damage to enemy
         busy = false;
     }
 
