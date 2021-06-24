@@ -384,6 +384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickResult: 0
+  SceneName: 
+  CurrentScreen: {fileID: 0}
+  NextScreen: {fileID: 0}
 --- !u!1 &3348173787575125252
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,6 +700,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickResult: 1
+  SceneName: 
+  CurrentScreen: {fileID: 0}
+  NextScreen: {fileID: 0}
 --- !u!1 &6036579885620500758
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,3 +1123,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickResult: 2
+  SceneName: 
+  CurrentScreen: {fileID: 0}
+  NextScreen: {fileID: 0}
