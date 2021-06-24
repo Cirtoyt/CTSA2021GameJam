@@ -1574,10 +1574,10 @@ MonoBehaviour:
   player1MaxHeavyAttack: 50
   player2MaxHeavyAttack: 50
   maxUltimate: 100
-  player1HealthGuage: {fileID: 6036579884967768966}
-  player2HealthGuage: {fileID: 6036579886680921487}
-  player1HeavyAttackGuage: {fileID: 6036579884938161461}
-  player2HeavyAttackGuage: {fileID: 6036579886611332138}
+  player1HealthGauge: {fileID: 6036579884967768966}
+  player2HealthGauge: {fileID: 6036579886680921487}
+  player1HeavyAttackGauge: {fileID: 6036579884938161461}
+  player2HeavyAttackGauge: {fileID: 6036579886611332138}
   ultLeftBar: {fileID: 6036579886219038588}
   ultRightBar: {fileID: 6036579885737883265}
 --- !u!1 &6036579885727652847
