@@ -32,7 +32,7 @@ public class Base_Enemy : MonoBehaviour
         gameObject.GetComponent<NavMeshAgent>().enabled = false;
 
         rb.AddForce(knockbackForce);
-        StartCoroutine(standUp(2.0f));
+        StartCoroutine(standUp(1.0f));
     }
 
     private IEnumerator standUp(float seconds)

@@ -102,7 +102,7 @@ public class BrawnActions : MonoBehaviour
             {
                 Debug.Log("Hit : " + collision.gameObject.name);
                 collision.gameObject.GetComponent<Base_Enemy>().gotHit(heavyAtkDamage);
-                Vector3 knockbackForce = (Vector3.forward * heavyAtkRange).normalized;
+                Vector3 knockbackForce = (collision.gameObject.transform.position - transform.position).normalized * 500f;
                 collision.gameObject.GetComponent<Base_Enemy>().knockBack(knockbackForce);
             }
         }
