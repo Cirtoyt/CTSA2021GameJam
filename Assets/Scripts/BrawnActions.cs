@@ -26,6 +26,8 @@ public class BrawnActions : MonoBehaviour
     private int SoloUltRadius;
     private int SoloUltDamage;
 
+    private PlayerHUDController hudctrlr;
+
     void Start()
     {
         enemyLayer = LayerMask.GetMask("Enemy");
@@ -45,6 +47,8 @@ public class BrawnActions : MonoBehaviour
 
         SoloUltRadius = 4;
         SoloUltDamage = 30;
+
+        hudctrlr = FindObjectOfType<PlayerHUDController>();
     }
 
     void Update()
@@ -65,6 +69,9 @@ public class BrawnActions : MonoBehaviour
                 Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
                 enemiesHit[i].GetComponent<Base_Enemy>().gotHit(LightAtkDamage);
 
+                hudctrlr.UpdatePlayer2HeavyAttackGauge(15);
+                hudctrlr.UpdateUltGauge(5);
+
                 i++;
             }
 
@@ -75,14 +82,14 @@ public class BrawnActions : MonoBehaviour
 
     public void OnHeavyAttack(InputValue value)
     {
-        if (!busy && true) // replace true with if heavy attack gauge is charged
+        if (!busy && hudctrlr.CheckPlayer2HeavyAttackReady()) // replace true with if heavy attack gauge is charged
         {
             Debug.Log(name + " heavy attacks!");
             busy = true;
 
             dashing = true;
             StartCoroutine(Dash());
-
+            hudctrlr.UpdatePlayer2HeavyAttackGauge(-hudctrlr.player2MaxHeavyAttack);
             //Invoke("HeavyAttack", 0.0f);
         }
     }
@@ -105,6 +112,12 @@ public class BrawnActions : MonoBehaviour
                 collision.gameObject.GetComponent<Base_Enemy>().gotHit(heavyAtkDamage);
                 Vector3 knockbackForce = (collision.gameObject.transform.position - transform.position).normalized * 250f;
                 collision.gameObject.GetComponent<Base_Enemy>().knockBack(knockbackForce);
+            }
+
+            else if(collision.gameObject.layer == 11)
+            {
+                Debug.Log("Hit : " + collision.gameObject.name);
+                collision.gameObject.GetComponent<DestructibleObject>().startDestruction();
             }
         }
     }

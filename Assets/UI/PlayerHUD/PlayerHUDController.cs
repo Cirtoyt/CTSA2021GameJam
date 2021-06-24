@@ -17,8 +17,6 @@ public class PlayerHUDController : MonoBehaviour
     [SerializeField] private float ultimateComboDistance = 3;
     [SerializeField] private float player1MaxHealth = 100;
     [SerializeField] private float player2MaxHealth = 100;
-    [SerializeField] private float player1MaxHeavyAttack = 50;
-    [SerializeField] private float player2MaxHeavyAttack = 50;
     [SerializeField] private float maxUltimate = 100;
     [SerializeField] private Slider player1HealthGauge;
     [SerializeField] private Slider player2HealthGauge;
@@ -31,6 +29,9 @@ public class PlayerHUDController : MonoBehaviour
     private Transform player2;
     public float player1Health;
     public float player2Health;
+    public float player1MaxHeavyAttack = 50;
+    public float player2MaxHeavyAttack = 50;
+
     private float player1HeavyAttack;
     private float player2HeavyAttack;
     private float ultimate;
@@ -116,6 +117,11 @@ public class PlayerHUDController : MonoBehaviour
         if ((player2HeavyAttack += additionalAmount) > player2MaxHeavyAttack)
         {
             player2HeavyAttack = player2MaxHeavyAttack;
+        }
+
+        else if ((player2HeavyAttack += additionalAmount) <= 0)
+        {
+            player2HeavyAttack = 0;
         }
 
         StartCoroutine(UpdateSlider(player2HeavyAttackGauge, player2HeavyAttack, player2MaxHeavyAttack));
