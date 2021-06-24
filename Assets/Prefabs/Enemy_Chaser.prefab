@@ -118,7 +118,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1024
-  attackDelay: 4
+  attackDelay: 40
   attackRange: 0.7
 --- !u!195 &3249794210037610674
 NavMeshAgent:
@@ -155,3 +155,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  knockedDown: 0

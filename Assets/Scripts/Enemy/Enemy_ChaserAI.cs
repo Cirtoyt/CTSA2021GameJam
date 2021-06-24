@@ -22,11 +22,11 @@ public class Enemy_ChaserAI : MonoBehaviour
     private target currentTarget;
 
     public float attackDelay;
-    private bool hasAttacked;
+    private bool canAttack;
 
     public float attackRange;
     private bool playerInAttackRange;
-    void Start()
+    private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         enemyPos = transform.position;
@@ -34,9 +34,11 @@ public class Enemy_ChaserAI : MonoBehaviour
         player1 = GameObject.FindGameObjectWithTag("Brains");
         player2 = GameObject.FindGameObjectWithTag("Brawn");
 
+        canAttack = true;
+
     }
 
-    void Update()
+    private void Update()
     {
         if (player1 == null)
         {
@@ -100,7 +102,7 @@ public class Enemy_ChaserAI : MonoBehaviour
             transform.LookAt(player2.transform);
         }
 
-        if (!hasAttacked)
+        if (canAttack)
         {
             //Attack code
             if (currentTarget == target.PLAYER1)
@@ -116,12 +118,14 @@ public class Enemy_ChaserAI : MonoBehaviour
                 HUD.GetComponent<PlayerHUDController>().DealDamage(2, 2.0f);
             }
             //
-            hasAttacked = true;
-            Invoke(nameof(resetAttack), attackDelay);
+            canAttack = false;
+            StartCoroutine(resetAttack(attackDelay));
         }
     }
-    private void resetAttack()
+    private IEnumerator resetAttack(float attackDelay)
     {
-        hasAttacked = false;
+        yield return new WaitForSeconds(attackDelay);
+
+        canAttack = true;
     }
 }
