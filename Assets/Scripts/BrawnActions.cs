@@ -106,9 +106,10 @@ public class BrawnActions : MonoBehaviour
                 collision.gameObject.GetComponent<Base_Enemy>().knockBack(knockbackForce);
             }
 
-            else if(collision.gameObject.layer == )
+            else if(collision.gameObject.layer == 11)
             {
-
+                Debug.Log("Hit : " + collision.gameObject.name);
+                collision.gameObject.GetComponent<DestructibleObject>().startDestruction();
             }
         }
     }
