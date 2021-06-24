@@ -29,8 +29,8 @@ public class PlayerHUDController : MonoBehaviour
 
     private Transform player1;
     private Transform player2;
-    private float player1Health;
-    private float player2Health;
+    public float player1Health;
+    public float player2Health;
     private float player1HeavyAttack;
     private float player2HeavyAttack;
     private float ultimate;
@@ -39,9 +39,9 @@ public class PlayerHUDController : MonoBehaviour
     {
         player1Health = player1MaxHealth;
         player2Health = player2MaxHealth;
-        player1HeavyAttack = player1MaxHeavyAttack;
-        player2HeavyAttack = player2MaxHeavyAttack;
-        ultimate = maxUltimate;
+        player1HeavyAttack = 0;
+        player2HeavyAttack = 0;
+        ultimate = 0;
     }
 
     public void SetPlayer1(Transform t)
@@ -133,9 +133,12 @@ public class PlayerHUDController : MonoBehaviour
     public void UpdateUltGauge(float additionalAmount)
     {
         if ((ultimate += additionalAmount) >= maxUltimate)
+        {
+            ultimate = maxUltimate;
+        }
 
-        StartCoroutine(UpdateSlider(ultLeftBar, additionalAmount, maxUltimate));
-        StartCoroutine(UpdateSlider(ultRightBar, additionalAmount, maxUltimate));
+        StartCoroutine(UpdateSlider(ultLeftBar, ultimate, maxUltimate));
+        StartCoroutine(UpdateSlider(ultRightBar, ultimate, maxUltimate));
 
          if (ultLeftBar.value >= 1)
         {
@@ -181,6 +184,6 @@ public class PlayerHUDController : MonoBehaviour
             yield return null;
         }
 
-        slider.value = newAmount;
+        slider.value = newAmountPct;
     }
 }
