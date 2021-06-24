@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class BrawnActions : MonoBehaviour
 {
     public LayerMask enemyLayer;
+    public Animator anim;
 
     public bool busy = false;
     [SerializeField] private float regularAttackDelay = 0.35f;

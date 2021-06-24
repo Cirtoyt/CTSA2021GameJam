@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canMove = true;
 
     private Rigidbody rb;
+    private Animator anim;
 
     public Vector3 direction;
 
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
         canMove = true; //false at start of game before control is given
 
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
@@ -33,7 +35,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canMove)
         {
-            rb.MovePosition(transform.position + direction * walkSpeed * Time.fixedDeltaTime);
+            if (direction != Vector3.zero)
+            {
+                anim.SetBool("isRunning", true);
+                rb.MovePosition(transform.position + direction * walkSpeed * Time.fixedDeltaTime);
+            }
+            else
+            {
+                anim.SetBool("isRunning", false);
+            }
         }
     }
 

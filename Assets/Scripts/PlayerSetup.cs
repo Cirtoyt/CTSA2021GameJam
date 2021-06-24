@@ -6,7 +6,9 @@ public class PlayerSetup : MonoBehaviour
 {
     public Material brainsMaterial;
     public Material brawnMaterial;
-    
+    public RuntimeAnimatorController brainsAnimController;
+    public RuntimeAnimatorController brawnsAnimController;
+
     private PlayerHUDController hudCtrlr;
 
     void Start()
@@ -20,10 +22,9 @@ public class PlayerSetup : MonoBehaviour
             name = "Brains";
             tag = "Brains";
             hudCtrlr.SetPlayer1(transform);
-            GetComponent<MeshRenderer>().material = brainsMaterial;
+            transform.Find("characterMedium").GetComponent<SkinnedMeshRenderer>().material = brainsMaterial;
             gameObject.AddComponent<BrainsActions>();
-
-            // Setup model & animator
+            GetComponent<Animator>().runtimeAnimatorController = brainsAnimController as RuntimeAnimatorController;
         }
         else if (PlayerInstanceManager.instance.players.Count == 1)
         {
@@ -32,10 +33,9 @@ public class PlayerSetup : MonoBehaviour
             name = "Brawn";
             tag = "Brawn";
             hudCtrlr.SetPlayer2(transform);
-            GetComponent<MeshRenderer>().material = brawnMaterial;
+            transform.Find("characterMedium").GetComponent<SkinnedMeshRenderer>().material = brawnMaterial;
             gameObject.AddComponent<BrawnActions>();
-
-            // Setup model & animator
+            GetComponent<Animator>().runtimeAnimatorController = brawnsAnimController as RuntimeAnimatorController;
         }
 
         PlayerInstanceManager.instance.players.Add(gameObject);
