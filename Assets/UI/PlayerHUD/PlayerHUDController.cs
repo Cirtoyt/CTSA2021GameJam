@@ -20,10 +20,10 @@ public class PlayerHUDController : MonoBehaviour
     [SerializeField] private float player1MaxHeavyAttack = 50;
     [SerializeField] private float player2MaxHeavyAttack = 50;
     [SerializeField] private float maxUltimate = 100;
-    [SerializeField] private Slider player1HealthGuage;
-    [SerializeField] private Slider player2HealthGuage;
-    [SerializeField] private Slider player1HeavyAttackGuage;
-    [SerializeField] private Slider player2HeavyAttackGuage;
+    [SerializeField] private Slider player1HealthGauge;
+    [SerializeField] private Slider player2HealthGauge;
+    [SerializeField] private Slider player1HeavyAttackGauge;
+    [SerializeField] private Slider player2HeavyAttackGauge;
     [SerializeField] private Slider ultLeftBar;
     [SerializeField] private Slider ultRightBar;
 
@@ -54,9 +54,9 @@ public class PlayerHUDController : MonoBehaviour
         player2 = t;
     }
 
-    public void UpdatePlayer1HealthGuage(float newHP, float maxHP)
+    public void UpdatePlayer1HealthGauge(float newHP)
     {
-        StartCoroutine(UpdateSlider(player1HealthGuage, newHP, maxHP));
+        StartCoroutine(UpdateSlider(player1HealthGauge, newHP, player1MaxHealth));
         player1Health = newHP;
 
         if (player1Health <= 0)
@@ -66,9 +66,9 @@ public class PlayerHUDController : MonoBehaviour
         }
     }
 
-    public void UpdatePlayer2HealthGuage(float newHP, float maxHP)
+    public void UpdatePlayer2HealthGauge(float newHP)
     {
-        StartCoroutine(UpdateSlider(player2HealthGuage, newHP, maxHP));
+        StartCoroutine(UpdateSlider(player2HealthGauge, newHP, player2MaxHealth));
         player2Health = newHP;
 
         if (player2Health <= 0)
@@ -83,49 +83,59 @@ public class PlayerHUDController : MonoBehaviour
         if (playerNumber == 1)
         {
             float newHP = player1Health - damage;
-            UpdatePlayer1HealthGuage(newHP, player1MaxHealth);
+            UpdatePlayer1HealthGauge(newHP);
         }
         else if (playerNumber == 2)
         {
             float newHP = player2Health - damage;
-            UpdatePlayer2HealthGuage(newHP, player2MaxHealth);
+            UpdatePlayer2HealthGauge(newHP);
         }
     }
 
-    public void UpdatePlayer1HeavyAttackGuage(float newAmount, float maxAmount)
+    public void UpdatePlayer1HeavyAttackGauge(float additionalAmount)
     {
-        StartCoroutine(UpdateSlider(player1HeavyAttackGuage, newAmount, maxAmount));
-        player1HeavyAttack = newAmount;
+        if ((player1HeavyAttack += additionalAmount) > player1MaxHeavyAttack)
+        {
+            player1HeavyAttack = player1MaxHeavyAttack;
+        }
+
+        StartCoroutine(UpdateSlider(player1HeavyAttackGauge, player1HeavyAttack, player1MaxHeavyAttack));
     }
 
     public bool CheckPlayer1HeavyAttackReady()
     {
-        if (player1HeavyAttack >= 1)
+        if (player1HeavyAttack >= player1MaxHeavyAttack)
         {
             return true;
         }
         return false;
     }
 
-    public void UpdatePlayer2HeavyAttackGuage(float newAmount, float maxAmount)
+    public void UpdatePlayer2HeavyAttackGauge(float additionalAmount)
     {
-        StartCoroutine(UpdateSlider(player2HeavyAttackGuage, newAmount, maxAmount));
-        player2HeavyAttack = newAmount;
+        if ((player2HeavyAttack += additionalAmount) > player2MaxHeavyAttack)
+        {
+            player2HeavyAttack = player2MaxHeavyAttack;
+        }
+
+        StartCoroutine(UpdateSlider(player2HeavyAttackGauge, player2HeavyAttack, player2MaxHeavyAttack));
     }
 
     public bool CheckPlayer2HeavyAttackReady()
     {
-        if (player2HeavyAttack >= 1)
+        if (player2HeavyAttack >= player2MaxHeavyAttack)
         {
             return true;
         }
         return false;
     }
 
-    public void UpdateUltGuage(float newAmount, float maxAmount)
+    public void UpdateUltGauge(float additionalAmount)
     {
-        StartCoroutine(UpdateSlider(ultLeftBar, newAmount, maxAmount));
-        StartCoroutine(UpdateSlider(ultRightBar, newAmount, maxAmount));
+        if ((ultimate += additionalAmount) >= maxUltimate)
+
+        StartCoroutine(UpdateSlider(ultLeftBar, additionalAmount, maxUltimate));
+        StartCoroutine(UpdateSlider(ultRightBar, additionalAmount, maxUltimate));
 
          if (ultLeftBar.value >= 1)
         {
