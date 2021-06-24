@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class BrainsActions : MonoBehaviour
 {
     public bool busy = false;
+    public Animator anim;
     [SerializeField] private float regularAttackDelay = 0.35f;
     [SerializeField] private float regularAttackDamage = 20;
     [SerializeField] private float heavyAttackDamage = 50;
