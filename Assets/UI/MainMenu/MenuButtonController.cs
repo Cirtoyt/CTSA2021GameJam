@@ -28,8 +28,8 @@ public class MenuButtonController : MonoBehaviour
     }
     public void TransitionPress()
     {
-        CurrentScreen.SetActive(false);
-        NextScreen.SetActive(true);
+        CurrentScreen.GetComponent<Canvas>().sortingOrder = -1;
+        NextScreen.GetComponent<Canvas>().sortingOrder = 0;
     }
     public void CloseGamePress()
     {
