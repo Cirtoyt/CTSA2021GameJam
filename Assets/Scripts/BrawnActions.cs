@@ -9,8 +9,8 @@ public class BrawnActions : MonoBehaviour
 
     public bool busy = false;
     [SerializeField] private float regularAttackDelay = 0.35f;
-    [SerializeField] private float heavyAttackDelay;
-    [SerializeField] private float soloUltDelay = 1.0f;
+    [SerializeField] private float heavyAttackDelay = 1.0f;
+    [SerializeField] private float soloUltDelay = 2.0f;
 
     private float LightAtkCentre;
     private Vector3 LightAtkSize;
@@ -39,7 +39,7 @@ public class BrawnActions : MonoBehaviour
         dashing = false;
         heavyAtkSpeed = 0.5f;
         heavyAtkRange = 12;
-        heavyAtkDamage = 9;
+        heavyAtkDamage = 0;
 
 
         SoloUltRadius = 4;
@@ -81,7 +81,8 @@ public class BrawnActions : MonoBehaviour
 
             dashing = true;
             StartCoroutine(Dash());
-            Invoke("HeavyAttack", 0.0f);
+
+            //Invoke("HeavyAttack", 0.0f);
         }
     }
 
@@ -101,6 +102,8 @@ public class BrawnActions : MonoBehaviour
             {
                 Debug.Log("Hit : " + collision.gameObject.name);
                 collision.gameObject.GetComponent<Base_Enemy>().gotHit(heavyAtkDamage);
+                Vector3 knockbackForce = (Vector3.forward * heavyAtkRange).normalized;
+                collision.gameObject.GetComponent<Base_Enemy>().knockBack(knockbackForce);
             }
         }
     }
@@ -157,5 +160,7 @@ public class BrawnActions : MonoBehaviour
 
         gameObject.GetComponent<PlayerMovement>().canMove = true;
         dashing = false;
+
+        StartCoroutine(StartAttackDelay(heavyAttackDelay));
     }
 }
