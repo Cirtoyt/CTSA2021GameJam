@@ -105,15 +105,15 @@ public class Enemy_ChaserAI : MonoBehaviour
             //Attack code
             if (currentTarget == target.PLAYER1)
             {
-                Debug.Log("Attacking Player 1");
+                Debug.Log("Attacking Player Brains");
                 GameObject HUD = GameObject.Find("PlayerHUDPrefab");
                 HUD.GetComponent<PlayerHUDController>().DealDamage(1, 2.0f);
             }
             else if (currentTarget == target.PLAYER2)
             {
-                Debug.Log("Attacking Player 2");
+                Debug.Log("Attacking Player Brawn");
                 GameObject HUD = GameObject.Find("PlayerHUDPrefab");
-                HUD.GetComponent<PlayerHUDController>().DealDamage(1, 2.0f);
+                HUD.GetComponent<PlayerHUDController>().DealDamage(2, 2.0f);
             }
             //
             hasAttacked = true;
