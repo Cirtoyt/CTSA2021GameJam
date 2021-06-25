@@ -6,6 +6,8 @@ public class HackingMonitor : MonoBehaviour
 {
     private GameObject brains;
     private Transform playerPlacementPosition;
+    public float speed;
+    public float timeToHack;
 
     private bool isHacking;
     private bool inHackingZone;
@@ -17,9 +19,16 @@ public class HackingMonitor : MonoBehaviour
         inHackingZone = false;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-
+        if (timeToHack > 0.0f)
+        {
+            interactionCheck();
+        }
+        else
+        {
+            gameObject.GetComponent<Collider>().enabled = false;
+        }
     }
 
     public void interactionCheck()
@@ -31,8 +40,9 @@ public class HackingMonitor : MonoBehaviour
             {
                 case true:
                     Debug.Log("Brains is initiating the hack!");
-                    brains.transform.position = playerPlacementPosition.transform.position;
+                    brains.transform.position = Vector3.MoveTowards(brains.transform.position, playerPlacementPosition.transform.position, speed * Time.deltaTime);
                     brains.transform.LookAt(gameObject.transform);
+                    timeToHack -= Time.deltaTime;
                     break;
 
                 case false:
