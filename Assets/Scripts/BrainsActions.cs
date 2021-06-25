@@ -85,7 +85,7 @@ public class BrainsActions : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         Debug.Log(name + " uses an interaction.");
-        hackingMonitor.GetComponent<HackingMonitor>().interactionCheck();
+        hackingMonitor.GetComponentInChildren<HackingMonitor>().interactionCheck();
     }
 
     public void SetGrapple(GameObject _grapple)
