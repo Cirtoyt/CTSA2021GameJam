@@ -9,6 +9,7 @@ public class Base_Interactables : MonoBehaviour
     private bool inRange;
 
     public float interactableRadius;
+    //Used to specify interactable type
     public enum interactableType
     {
         PUSH,
@@ -28,12 +29,14 @@ public class Base_Interactables : MonoBehaviour
         interactionTrigger.radius += interactableRadius; 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-       if (other.gameObject.layer == playerLayerMask)
-       {
+        if (other.gameObject.layer == playerLayerMask)
+        {
             // Display UI prompt
-       }
+
+
+        }
     }
     private void OnTriggerExit(Collider other)
     {

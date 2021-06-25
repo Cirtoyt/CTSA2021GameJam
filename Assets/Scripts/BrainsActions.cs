@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,12 +14,14 @@ public class BrainsActions : MonoBehaviour
 
     private PlayerHUDController hudctrlr;
     private Animator anim;
+    [SerializeField] private GameObject hackingMonitor;
 
     private void Start()
     {
         busy = false;
         hudctrlr = FindObjectOfType<PlayerHUDController>();
         anim = GetComponent<Animator>();
+        hackingMonitor = GameObject.Find("Control_Panel");
     }
 
     public void OnRegularAttack(InputValue value)
@@ -83,6 +85,7 @@ public class BrainsActions : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         Debug.Log(name + " uses an interaction.");
+        hackingMonitor.GetComponent<HackingMonitor>().interactionCheck();
     }
 
     public void SetGrapple(GameObject _grapple)
