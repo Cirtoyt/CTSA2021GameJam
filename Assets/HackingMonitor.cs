@@ -8,6 +8,7 @@ public class HackingMonitor : MonoBehaviour
     private Transform playerPlacementPosition;
     public float speed;
     public float timeToHack;
+    public GameObject door;
 
     private bool isHacking;
     private bool inHackingZone;
@@ -28,6 +29,7 @@ public class HackingMonitor : MonoBehaviour
         else
         {
             gameObject.GetComponent<Collider>().enabled = false;
+            Destroy(door);
         }
     }
 
