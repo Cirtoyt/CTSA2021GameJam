@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6553601910154613921}
   - component: {fileID: 6553601910154613854}
   - component: {fileID: 6553601910154613855}
-  - component: {fileID: 6553601910154613852}
+  - component: {fileID: 3718075534186785635}
   m_Layer: 0
   m_Name: Brains LaserGun
   m_TagString: Untagged
@@ -4871,7 +4871,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &6553601910154613852
+--- !u!114 &3718075534186785635
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4880,7 +4880,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6553601910154613853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bea438e316ceae42a68641d9175d872, type: 3}
+  m_Script: {fileID: 11500000, guid: 382af34d84252804ca5d7d0b5ad4a74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hitEffect: {fileID: 4866303907113163362, guid: 0ef8aeccef373de40a43d7e1ec849ab9, type: 3}

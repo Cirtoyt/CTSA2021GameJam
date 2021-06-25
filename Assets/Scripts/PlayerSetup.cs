@@ -10,6 +10,7 @@ public class PlayerSetup : MonoBehaviour
     public RuntimeAnimatorController brawnsAnimController;
     public GameObject brainsGrapple;
     public GameObject gravityBomb;
+    public GameObject brainsLaser;
 
     private PlayerHUDController hudCtrlr;
 
@@ -28,6 +29,8 @@ public class PlayerSetup : MonoBehaviour
             BrainsActions brainsActions = gameObject.AddComponent<BrainsActions>();
             brainsActions.SetGrapple(brainsGrapple);
             brainsActions.SetGravityBomb(gravityBomb);
+            GameObject gun = Instantiate(brainsLaser, transform);
+            gun.name = "Brains LaserGun";
             GetComponent<Animator>().runtimeAnimatorController = brainsAnimController as RuntimeAnimatorController;
 
         }
