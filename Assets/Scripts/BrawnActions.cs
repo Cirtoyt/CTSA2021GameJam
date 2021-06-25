@@ -6,18 +6,49 @@ using UnityEngine.InputSystem;
 public class BrawnActions : MonoBehaviour
 {
     public LayerMask enemyLayer;
+    public Animator anim;
+
+    public bool busy = false;
+    [SerializeField] private float regularAttackDelay = 0.35f;
+    [SerializeField] private float heavyAttackDelay = 1.0f;
+    [SerializeField] private float soloUltDelay = 2.0f;
 
     private float LightAtkCentre;
     private Vector3 LightAtkSize;
     private int LightAtkDamage;
 
+    private Rigidbody myRigidBody;
+    private bool dashing;
+    private float heavyAtkSpeed;
+    private float heavyAtkRange;
+    private int heavyAtkDamage;
+
+    private int SoloUltRadius;
+    private int SoloUltDamage;
+
+    private PlayerHUDController hudctrlr;
+
     void Start()
     {
         enemyLayer = LayerMask.GetMask("Enemy");
 
+        busy = false;
+
         LightAtkCentre = 1;
         LightAtkSize = new Vector3(1, 2, 1);
         LightAtkDamage = 5;
+
+        myRigidBody = gameObject.GetComponent<Rigidbody>();
+        dashing = false;
+        heavyAtkSpeed = 0.75f;
+        heavyAtkRange = 9;
+        heavyAtkDamage = 9;
+
+
+        SoloUltRadius = 4;
+        SoloUltDamage = 30;
+
+        hudctrlr = FindObjectOfType<PlayerHUDController>();
     }
 
     void Update()
@@ -27,31 +58,129 @@ public class BrawnActions : MonoBehaviour
 
     public void OnRegularAttack(InputValue value)
     {
-        Debug.Log(name + " regular attacks!");
-        Collider[] enemiesHit = Physics.OverlapBox(transform.position + (transform.forward * LightAtkCentre), LightAtkSize, Quaternion.LookRotation(transform.forward), enemyLayer);
-
-        int i = 0;
-        while (i < enemiesHit.Length)
+        if (!busy)
         {
-            Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
-            enemiesHit[i].GetComponent<Base_Enemy>().gotHit(LightAtkDamage);
+            Debug.Log(name + " regular attacks!");
+            Collider[] enemiesHit = Physics.OverlapBox(transform.position + (transform.forward * LightAtkCentre), LightAtkSize, Quaternion.LookRotation(transform.forward), enemyLayer);
 
-            i++;
+            int i = 0;
+            while (i < enemiesHit.Length)
+            {
+                Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
+                enemiesHit[i].GetComponent<Base_Enemy>().gotHit(LightAtkDamage);
+
+                hudctrlr.UpdatePlayer2HeavyAttackGauge(15);
+                hudctrlr.UpdateUltGauge(5);
+
+                i++;
+            }
+
+            busy = true;
+            StartCoroutine(StartAttackDelay(regularAttackDelay));
         }
     }
 
     public void OnHeavyAttack(InputValue value)
     {
-        Debug.Log(name + " heavy attacks!");
+        if (!busy && hudctrlr.CheckPlayer2HeavyAttackReady()) // replace true with if heavy attack gauge is charged
+        {
+            Debug.Log(name + " heavy attacks!");
+            busy = true;
+
+            dashing = true;
+            StartCoroutine(Dash());
+            hudctrlr.ResetPlayer2HeavyAttackGauge();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(dashing)
+        {       
+            if (collision.gameObject.layer == 8)
+            {
+                Debug.Log("Hit : " + collision.gameObject.name);
+                collision.gameObject.GetComponent<Base_Enemy>().gotHit(heavyAtkDamage);
+                Vector3 knockbackForce = (collision.gameObject.transform.position - transform.position).normalized * 250f;
+                collision.gameObject.GetComponent<Base_Enemy>().knockBack(knockbackForce);
+            }
+
+            else if(collision.gameObject.layer == 11)
+            {
+                Debug.Log("Hit : " + collision.gameObject.name);
+                collision.gameObject.GetComponent<DestructibleObject>().startDestruction();
+            }
+        }
     }
 
     public void OnUltimateAttack(InputValue value)
     {
-        Debug.Log(name + " uses an ultimate!!");
+        if (!busy && hudctrlr.CheckUltimateReady() != PlayerHUDController.UltimateTypes.NotReady) // replace true with if ultimate guage is charged
+        {
+            if (hudctrlr.CheckUltimateReady() == PlayerHUDController.UltimateTypes.Single)
+            {
+                Debug.Log(name + " uses their solo ultimate!!");
+
+                busy = true;
+
+                // You should move this into another function that is called by an event in the ult's animation
+                // and have here just a call to trigger the animation, all of course once the animation is setup
+
+                Collider[] enemiesHit = Physics.OverlapSphere(transform.position, SoloUltRadius, enemyLayer);
+
+                int i = 0;
+                while (i < enemiesHit.Length)
+                {
+                    Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
+                    enemiesHit[i].GetComponent<Base_Enemy>().gotHit(SoloUltDamage);
+
+                    i++;
+                }
+
+                busy = false;
+            }
+            else if (hudctrlr.CheckUltimateReady() == PlayerHUDController.UltimateTypes.Combo)
+            {
+                Debug.Log(name + " triggers the combo ultimate with Brains!!!");
+
+                GameObject brains = GameObject.FindGameObjectWithTag("Brains");
+                brains.GetComponent<BrainsActions>().busy = true;
+                brains.GetComponent<PlayerMovement>().canMove = false;
+
+                // Do something co-ordinated with Brains :S
+            }
+
+            hudctrlr.ResetUltimateGauge();
+        }
     }
 
     public void OnInteract(InputValue value)
     {
         Debug.Log(name + " uses an interaction.");
+    }
+
+    private IEnumerator StartAttackDelay(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+
+        busy = false;
+    }
+
+    private IEnumerator Dash()
+    {
+        gameObject.GetComponent<PlayerMovement>().canMove = false;
+        float startTime = Time.time;
+
+        while(Time.time < startTime + heavyAtkSpeed)
+        {
+            myRigidBody.MovePosition(transform.position + transform.forward * heavyAtkRange * Time.fixedDeltaTime);
+
+            yield return null;
+        }
+
+        gameObject.GetComponent<PlayerMovement>().canMove = true;
+        dashing = false;
+
+        busy = false;
     }
 }

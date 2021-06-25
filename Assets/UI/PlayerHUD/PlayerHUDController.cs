@@ -8,47 +8,55 @@ public class PlayerHUDController : MonoBehaviour
     public enum UltimateTypes : int
     {
         Combo,
-        Brains,
-        Brawn,
+        Single,
         NotReady,
     }
 
     [SerializeField] private float barSmoothingSpeed = 1;
-    [SerializeField] private float ultimateComboDistance;
-    [SerializeField] private float player1MaxHealth;
-    [SerializeField] private float player2MaxHealth;
-    [SerializeField] private float player1MaxHeavyAttack;
-    [SerializeField] private float player2MaxHeavyAttack;
-    [SerializeField] private float maxUltimate;
-    [SerializeField] private Slider player1HealthGuage;
-    [SerializeField] private Slider player2HealthGuage;
-    [SerializeField] private Slider player1HeavyAttackGuage;
-    [SerializeField] private Slider player2HeavyAttackGuage;
+    [SerializeField] private float ultimateComboDistance = 3;
+    [SerializeField] private float player1MaxHealth = 100;
+    [SerializeField] private float player2MaxHealth = 100;
+    [SerializeField] private float maxUltimate = 100;
+    [SerializeField] private Slider player1HealthGauge;
+    [SerializeField] private Slider player2HealthGauge;
+    [SerializeField] private Slider player1HeavyAttackGauge;
+    [SerializeField] private Slider player2HeavyAttackGauge;
     [SerializeField] private Slider ultLeftBar;
     [SerializeField] private Slider ultRightBar;
 
     private Transform player1;
     private Transform player2;
-    private float player1Health;
-    private float player2Health;
+    public float player1Health;
+    public float player2Health;
+    public float player1MaxHeavyAttack = 50;
+    public float player2MaxHeavyAttack = 50;
+
     private float player1HeavyAttack;
     private float player2HeavyAttack;
     private float ultimate;
 
     private void Start()
     {
-        player1 = GameObject.FindGameObjectWithTag("Brains").transform;
-        player2 = GameObject.FindGameObjectWithTag("Brawn").transform;
         player1Health = player1MaxHealth;
         player2Health = player2MaxHealth;
-        player1HeavyAttack = player1MaxHeavyAttack;
-        player2HeavyAttack = player2MaxHeavyAttack;
-        ultimate = maxUltimate;
+        player1HeavyAttack = 0;
+        player2HeavyAttack = 0;
+        ultimate = 0;
     }
 
-    public void UpdatePlayer1HealthGuage(float newHP, float maxHP)
+    public void SetPlayer1(Transform t)
     {
-        StartCoroutine(UpdateSlider(player1HealthGuage, newHP, maxHP));
+        player1 = t;
+    }
+
+    public void SetPlayer2(Transform t)
+    {
+        player2 = t;
+    }
+
+    public void UpdatePlayer1HealthGauge(float newHP)
+    {
+        StartCoroutine(UpdateSlider(player1HealthGauge, newHP, player1MaxHealth));
         player1Health = newHP;
 
         if (player1Health <= 0)
@@ -58,9 +66,9 @@ public class PlayerHUDController : MonoBehaviour
         }
     }
 
-    public void UpdatePlayer2HealthGuage(float newHP, float maxHP)
+    public void UpdatePlayer2HealthGauge(float newHP)
     {
-        StartCoroutine(UpdateSlider(player2HealthGuage, newHP, maxHP));
+        StartCoroutine(UpdateSlider(player2HealthGauge, newHP, player2MaxHealth));
         player2Health = newHP;
 
         if (player2Health <= 0)
@@ -75,49 +83,74 @@ public class PlayerHUDController : MonoBehaviour
         if (playerNumber == 1)
         {
             float newHP = player1Health - damage;
-            UpdatePlayer1HealthGuage(newHP, player1MaxHealth);
+            UpdatePlayer1HealthGauge(newHP);
         }
         else if (playerNumber == 2)
         {
             float newHP = player2Health - damage;
-            UpdatePlayer2HealthGuage(newHP, player2MaxHealth);
+            UpdatePlayer2HealthGauge(newHP);
         }
     }
 
-    public void UpdatePlayer1HeavyAttackGuage(float newAmount, float maxAmount)
+    public void UpdatePlayer1HeavyAttackGauge(float additionalAmount)
     {
-        StartCoroutine(UpdateSlider(player1HeavyAttackGuage, newAmount, maxAmount));
-        player1HeavyAttack = newAmount;
+        if ((player1HeavyAttack += additionalAmount) > player1MaxHeavyAttack)
+        {
+            player1HeavyAttack = player1MaxHeavyAttack;
+        }
+
+        StartCoroutine(UpdateSlider(player1HeavyAttackGauge, player1HeavyAttack, player1MaxHeavyAttack));
     }
 
     public bool CheckPlayer1HeavyAttackReady()
     {
-        if (player1HeavyAttack >= 1)
+        if (player1HeavyAttack >= player1MaxHeavyAttack)
         {
             return true;
         }
         return false;
     }
 
-    public void UpdatePlayer2HeavyAttackGuage(float newAmount, float maxAmount)
+    public void ResetPlayer1HeavyAttackGauge()
     {
-        StartCoroutine(UpdateSlider(player2HeavyAttackGuage, newAmount, maxAmount));
-        player2HeavyAttack = newAmount;
+        player1HeavyAttack = 0;
+        StartCoroutine(UpdateSlider(player1HeavyAttackGauge, player1HeavyAttack, player1MaxHeavyAttack));
+    }
+
+    public void UpdatePlayer2HeavyAttackGauge(float additionalAmount)
+    {
+        if ((player2HeavyAttack += additionalAmount) > player2MaxHeavyAttack)
+        {
+            player2HeavyAttack = player2MaxHeavyAttack;
+        }
+
+        StartCoroutine(UpdateSlider(player2HeavyAttackGauge, player2HeavyAttack, player2MaxHeavyAttack));
     }
 
     public bool CheckPlayer2HeavyAttackReady()
     {
-        if (player2HeavyAttack >= 1)
+        if (player2HeavyAttack >= player2MaxHeavyAttack)
         {
             return true;
         }
         return false;
     }
 
-    public void UpdateUltGuage(float newAmount, float maxAmount)
+    public void ResetPlayer2HeavyAttackGauge()
     {
-        StartCoroutine(UpdateSlider(ultLeftBar, newAmount, maxAmount));
-        StartCoroutine(UpdateSlider(ultRightBar, newAmount, maxAmount));
+        player2HeavyAttack = 0;
+        StartCoroutine(UpdateSlider(player2HeavyAttackGauge, player2HeavyAttack, player2MaxHeavyAttack));
+    }
+
+    public void UpdateUltGauge(float additionalAmount)
+    {
+        if ((ultimate += additionalAmount) >= maxUltimate)
+        {
+            ultimate = maxUltimate;
+        }
+
+        StartCoroutine(UpdateSlider(ultLeftBar, ultimate, maxUltimate));
+        StartCoroutine(UpdateSlider(ultRightBar, ultimate, maxUltimate));
 
          if (ultLeftBar.value >= 1)
         {
@@ -130,24 +163,27 @@ public class PlayerHUDController : MonoBehaviour
         }
     }
 
-    public UltimateTypes CheckUltimateReady(int playerNumber)
+    public UltimateTypes CheckUltimateReady()
     {
-        if (ultimate >= 1)
+        if (ultimate >= maxUltimate)
         {
             if (Vector3.Distance(player1.position, player2.position) <= ultimateComboDistance)
             {
                 return UltimateTypes.Combo;
             }
-            else if (playerNumber == 1)
+            else
             {
-                return UltimateTypes.Brains;
-            }
-            else if (playerNumber == 2)
-            {
-                return UltimateTypes.Brawn;
+                return UltimateTypes.Single;
             }
         }
         return UltimateTypes.NotReady;
+    }
+
+    public void ResetUltimateGauge()
+    {
+        ultimate = 0;
+        StartCoroutine(UpdateSlider(ultLeftBar, ultimate, maxUltimate));
+        StartCoroutine(UpdateSlider(ultRightBar, ultimate, maxUltimate));
     }
 
     private IEnumerator UpdateSlider(Slider slider, float newAmount, float totalAmount)
@@ -163,6 +199,6 @@ public class PlayerHUDController : MonoBehaviour
             yield return null;
         }
 
-        slider.value = newAmount;
+        slider.value = newAmountPct;
     }
 }
