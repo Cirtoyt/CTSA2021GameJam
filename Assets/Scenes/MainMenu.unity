@@ -1208,7 +1208,7 @@ PrefabInstance:
       objectReference: {fileID: 2073910201}
     - target: {fileID: 7120954441853470121, guid: e5b5b846f7fc14944baeb58319f34f59, type: 3}
       propertyPath: SceneName
-      value: GameScene
+      value: level_greybox
       objectReference: {fileID: 0}
     - target: {fileID: 7698751187381897601, guid: e5b5b846f7fc14944baeb58319f34f59, type: 3}
       propertyPath: m_Navigation.m_Mode
