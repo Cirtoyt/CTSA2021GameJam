@@ -29,7 +29,7 @@ public class MenuButtonController : MonoBehaviour
     public void TransitionPress()
     {
         CurrentScreen.GetComponent<Canvas>().sortingOrder = -1;
-        NextScreen.GetComponent<Canvas>().sortingOrder = 0;
+        NextScreen.GetComponent<Canvas>().sortingOrder = 1;
     }
     public void CloseGamePress()
     {
