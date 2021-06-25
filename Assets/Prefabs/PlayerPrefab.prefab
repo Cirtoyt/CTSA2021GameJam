@@ -469,6 +469,8 @@ MonoBehaviour:
   brawnMaterial: {fileID: 2100000, guid: 43b24fef788458944b249965db5a2f74, type: 2}
   brainsAnimController: {fileID: 9100000, guid: 3c6674dfa7d59324b8c81f36dcd87d21, type: 2}
   brawnsAnimController: {fileID: 9100000, guid: 3c6674dfa7d59324b8c81f36dcd87d21, type: 2}
+  brainsGrapple: {fileID: 3973858496302993710, guid: 50f88420ad8d0a241a46685adb837ee2, type: 3}
+  gravityBomb: {fileID: 7580149350550802017, guid: a9ec070b9a45f544b912fd3a6ad47997, type: 3}
 --- !u!95 &7748296007631325788
 Animator:
   serializedVersion: 3

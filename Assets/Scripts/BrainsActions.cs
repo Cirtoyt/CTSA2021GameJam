@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,18 +6,21 @@ using UnityEngine.InputSystem;
 public class BrainsActions : MonoBehaviour
 {
     public bool busy = false;
-    public Animator anim;
+    private GameObject grapple;
+    private GameObject gravityBomb;
     [SerializeField] private float regularAttackDelay = 0.35f;
     [SerializeField] private float regularAttackDamage = 20;
     [SerializeField] private float heavyAttackDamage = 50;
 
     private PlayerHUDController hudctrlr;
+    private Animator anim;
     [SerializeField] private GameObject hackingMonitor;
 
     private void Start()
     {
         busy = false;
         hudctrlr = FindObjectOfType<PlayerHUDController>();
+        anim = GetComponent<Animator>();
         hackingMonitor = GameObject.Find("Control_Panel");
     }
 
@@ -40,24 +43,11 @@ public class BrainsActions : MonoBehaviour
         {
             Debug.Log(name + " heavy attacks!");
             busy = true;
-            Invoke("HeavyAttack", 0.0f);
+            anim.SetBool("isRunning", false);
+            GetComponent<PlayerMovement>().canMove = false;
+            Vector3 grappleSpawnPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            Instantiate(grapple, grappleSpawnPos, Quaternion.identity);
         }
-    }
-
-    private void HeavyAttack()
-    {
-        GetComponent<PlayerMovement>().canMove = false;
-        // Spawn grapple gameobject
-        // In Start, rotate grapple forward = in direction of movement raw desired direction
-        // In update, move grapple hook (sphere) in that direction & check collider (slightly smaller than sphere visual) if it's hitting a collider
-        // , as well as scale rope cylinder and reposition between player position and grapple hook position
-        // If collider hits, change update via bool
-        // Begin to move player transform (ignoring physics) towards grapple hook, stopping just before it (half player width + 10cm or something)
-        // , as well as shrink rope cylinder and reposition posortionally between player and hook at all times
-        // Once at end, turn on movement again and destroy grapple gameobject
-
-        hudctrlr.ResetPlayer1HeavyAttackGauge();
-        busy = false;
     }
 
     public void OnUltimateAttack(InputValue value)
@@ -69,6 +59,8 @@ public class BrainsActions : MonoBehaviour
                 Debug.Log(name + " uses their solo ultimate!!");
 
                 // Tell anim to play ult throw
+                Vector3 gravityBombSpawnPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+                Instantiate(gravityBomb, gravityBombSpawnPos, Quaternion.LookRotation(GetComponent<PlayerMovement>().direction));
             }
             else if (hudctrlr.CheckUltimateReady() == PlayerHUDController.UltimateTypes.Combo)
             {
@@ -94,6 +86,16 @@ public class BrainsActions : MonoBehaviour
     {
         Debug.Log(name + " uses an interaction.");
         hackingMonitor.GetComponent<HackingMonitor>().interactionCheck();
+    }
+
+    public void SetGrapple(GameObject _grapple)
+    {
+        grapple = _grapple;
+    }
+
+    public void SetGravityBomb(GameObject _gravityBomb)
+    {
+        gravityBomb = _gravityBomb;
     }
 
     private IEnumerator StartAttackDelay(float seconds)
