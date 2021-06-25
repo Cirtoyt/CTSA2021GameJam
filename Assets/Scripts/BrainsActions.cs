@@ -24,8 +24,8 @@ public class BrainsActions : MonoBehaviour
         hudctrlr = FindObjectOfType<PlayerHUDController>();
         anim = GetComponent<Animator>();
         hackingMonitor = GameObject.Find("Control_Panel");
-        Instantiate(laserParticleSystem, new Vector3(0, 0 , 0), Quaternion.identity, transform.parent);
-        gun = GetComponentInChildren<ParticleSystem>();
+        Instantiate(laserParticleSystem, new Vector3(0, 0 , 0), Quaternion.identity, gameObject);
+        gun = laserParticleSystem.GetComponentInChildren<ParticleSystem>();
     }
 
     public void OnRegularAttack(InputValue value)
