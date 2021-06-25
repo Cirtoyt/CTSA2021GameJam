@@ -7,6 +7,7 @@ public class BrainsActions : MonoBehaviour
 {
     public bool busy = false;
     private GameObject grapple;
+    private GameObject gravityBomb;
     [SerializeField] private float regularAttackDelay = 0.35f;
     [SerializeField] private float regularAttackDamage = 20;
     [SerializeField] private float heavyAttackDamage = 50;
@@ -56,6 +57,8 @@ public class BrainsActions : MonoBehaviour
                 Debug.Log(name + " uses their solo ultimate!!");
 
                 // Tell anim to play ult throw
+                Vector3 gravityBombSpawnPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+                Instantiate(gravityBomb, gravityBombSpawnPos, Quaternion.LookRotation(GetComponent<PlayerMovement>().direction));
             }
             else if (hudctrlr.CheckUltimateReady() == PlayerHUDController.UltimateTypes.Combo)
             {
@@ -85,6 +88,11 @@ public class BrainsActions : MonoBehaviour
     public void SetGrapple(GameObject _grapple)
     {
         grapple = _grapple;
+    }
+
+    public void SetGravityBomb(GameObject _gravityBomb)
+    {
+        gravityBomb = _gravityBomb;
     }
 
     private IEnumerator StartAttackDelay(float seconds)

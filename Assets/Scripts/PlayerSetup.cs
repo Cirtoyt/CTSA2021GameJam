@@ -9,6 +9,7 @@ public class PlayerSetup : MonoBehaviour
     public RuntimeAnimatorController brainsAnimController;
     public RuntimeAnimatorController brawnsAnimController;
     public GameObject brainsGrapple;
+    public GameObject gravityBomb;
 
     private PlayerHUDController hudCtrlr;
 
@@ -26,6 +27,7 @@ public class PlayerSetup : MonoBehaviour
             transform.Find("characterMedium").GetComponent<SkinnedMeshRenderer>().material = brainsMaterial;
             BrainsActions brainsActions = gameObject.AddComponent<BrainsActions>();
             brainsActions.SetGrapple(brainsGrapple);
+            brainsActions.SetGravityBomb(gravityBomb);
             GetComponent<Animator>().runtimeAnimatorController = brainsAnimController as RuntimeAnimatorController;
 
         }
