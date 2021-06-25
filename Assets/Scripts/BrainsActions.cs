@@ -6,17 +6,19 @@ using UnityEngine.InputSystem;
 public class BrainsActions : MonoBehaviour
 {
     public bool busy = false;
-    public Animator anim;
+    private GameObject grapple;
     [SerializeField] private float regularAttackDelay = 0.35f;
     [SerializeField] private float regularAttackDamage = 20;
     [SerializeField] private float heavyAttackDamage = 50;
 
     private PlayerHUDController hudctrlr;
+    private Animator anim;
 
     private void Start()
     {
         busy = false;
         hudctrlr = FindObjectOfType<PlayerHUDController>();
+        anim = GetComponent<Animator>();
     }
 
     public void OnRegularAttack(InputValue value)
@@ -38,24 +40,11 @@ public class BrainsActions : MonoBehaviour
         {
             Debug.Log(name + " heavy attacks!");
             busy = true;
-            Invoke("HeavyAttack", 0.0f);
+            anim.SetBool("isRunning", false);
+            GetComponent<PlayerMovement>().canMove = false;
+            Vector3 grappleSpawnPos = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            Instantiate(grapple, grappleSpawnPos, Quaternion.identity);
         }
-    }
-
-    private void HeavyAttack()
-    {
-        GetComponent<PlayerMovement>().canMove = false;
-        // Spawn grapple gameobject
-        // In Start, rotate grapple forward = in direction of movement raw desired direction
-        // In update, move grapple hook (sphere) in that direction & check collider (slightly smaller than sphere visual) if it's hitting a collider
-        // , as well as scale rope cylinder and reposition between player position and grapple hook position
-        // If collider hits, change update via bool
-        // Begin to move player transform (ignoring physics) towards grapple hook, stopping just before it (half player width + 10cm or something)
-        // , as well as shrink rope cylinder and reposition posortionally between player and hook at all times
-        // Once at end, turn on movement again and destroy grapple gameobject
-
-        hudctrlr.ResetPlayer1HeavyAttackGauge();
-        busy = false;
     }
 
     public void OnUltimateAttack(InputValue value)
@@ -91,6 +80,11 @@ public class BrainsActions : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         Debug.Log(name + " uses an interaction.");
+    }
+
+    public void SetGrapple(GameObject _grapple)
+    {
+        grapple = _grapple;
     }
 
     private IEnumerator StartAttackDelay(float seconds)

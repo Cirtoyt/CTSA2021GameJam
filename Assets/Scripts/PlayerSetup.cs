@@ -8,6 +8,7 @@ public class PlayerSetup : MonoBehaviour
     public Material brawnMaterial;
     public RuntimeAnimatorController brainsAnimController;
     public RuntimeAnimatorController brawnsAnimController;
+    public GameObject brainsGrapple;
 
     private PlayerHUDController hudCtrlr;
 
@@ -23,8 +24,10 @@ public class PlayerSetup : MonoBehaviour
             tag = "Brains";
             hudCtrlr.SetPlayer1(transform);
             transform.Find("characterMedium").GetComponent<SkinnedMeshRenderer>().material = brainsMaterial;
-            gameObject.AddComponent<BrainsActions>();
+            BrainsActions brainsActions = gameObject.AddComponent<BrainsActions>();
+            brainsActions.SetGrapple(brainsGrapple);
             GetComponent<Animator>().runtimeAnimatorController = brainsAnimController as RuntimeAnimatorController;
+
         }
         else if (PlayerInstanceManager.instance.players.Count == 1)
         {
