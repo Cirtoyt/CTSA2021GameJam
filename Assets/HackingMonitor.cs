@@ -28,6 +28,7 @@ public class HackingMonitor : MonoBehaviour
     {
         if (inHackingZone)
         {
+            isHacking = !isHacking;
             if (isHacking)
             {
                 Debug.Log("Brains is initiating the hack!");
@@ -38,7 +39,6 @@ public class HackingMonitor : MonoBehaviour
             {
                 Debug.Log(name + "Brains stopped hacking!");
             }
-            isHacking = !isHacking;
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -56,6 +56,7 @@ public class HackingMonitor : MonoBehaviour
         if (brains != null)
         {
             inHackingZone = false;
+            isHacking = false;
         }
     }
 }
