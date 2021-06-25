@@ -9,7 +9,6 @@ public class HackingMonitor : MonoBehaviour
 
     private bool isHacking;
     private bool inHackingZone;
-    // Start is called before the first frame update
     void Start()
     {
         brains = GameObject.FindGameObjectWithTag("Brains");
@@ -18,7 +17,6 @@ public class HackingMonitor : MonoBehaviour
         inHackingZone = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -29,15 +27,17 @@ public class HackingMonitor : MonoBehaviour
         if (inHackingZone)
         {
             isHacking = !isHacking;
-            if (isHacking)
+            switch (isHacking)
             {
-                Debug.Log("Brains is initiating the hack!");
-                brains.transform.position = playerPlacementPosition.transform.position;
-                brains.transform.LookAt(gameObject.transform);
-            }
-            else if (!isHacking)
-            {
-                Debug.Log(name + "Brains stopped hacking!");
+                case true:
+                    Debug.Log("Brains is initiating the hack!");
+                    brains.transform.position = playerPlacementPosition.transform.position;
+                    brains.transform.LookAt(gameObject.transform);
+                    break;
+
+                case false:
+                    Debug.Log(name + "Brains stopped hacking!");
+                    break;
             }
         }
     }
