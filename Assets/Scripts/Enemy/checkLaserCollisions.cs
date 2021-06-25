@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class checkLaserCollisions : MonoBehaviour
 {
+    public GameObject hitEffect;
     private ParticleSystem laserParticleSystem;
     private float laserDamage;
     private GameObject HUD;
-
-    private GameObject player1;
-    private GameObject player2;
 
     List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
 
@@ -18,9 +16,6 @@ public class checkLaserCollisions : MonoBehaviour
         laserParticleSystem = GetComponent<ParticleSystem>();
         laserDamage = gameObject.GetComponentInParent<Enemy_SniperAI>().attackDamage;
         HUD = GameObject.Find("PlayerHUDPrefab");
-
-        player1 = GameObject.FindGameObjectWithTag("Brains");
-        player2 = GameObject.FindGameObjectWithTag("Brawn");
     }
 
     private void OnParticleCollision(GameObject other)
@@ -29,7 +24,7 @@ public class checkLaserCollisions : MonoBehaviour
 
         for (int i = 0; i < events; i++)
         {
-
+            Instantiate(hitEffect, collisionEvents[i].intersection, Quaternion.LookRotation(collisionEvents[i].normal));
         }
 
         if(other.tag == "Brains")
@@ -40,7 +35,6 @@ public class checkLaserCollisions : MonoBehaviour
 
         else if (other.tag == "Brawn")
         {
-            Debug.Log("Shot Brawn");
             HUD.GetComponent<PlayerHUDController>().DealDamage(2, laserDamage);
         }
     }
