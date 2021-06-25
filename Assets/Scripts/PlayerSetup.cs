@@ -4,28 +4,43 @@ using UnityEngine;
 
 public class PlayerSetup : MonoBehaviour
 {
-    
+    public Material brainsMaterial;
+    public Material brawnMaterial;
+    public RuntimeAnimatorController brainsAnimController;
+    public RuntimeAnimatorController brawnsAnimController;
+    public GameObject brainsGrapple;
+    public GameObject gravityBomb;
+
+    private PlayerHUDController hudCtrlr;
+
     void Start()
     {
+        hudCtrlr = FindObjectOfType<PlayerHUDController>();
+
         if (PlayerInstanceManager.instance.players.Count == 0)
         {
             // Setup Brains
 
             name = "Brains";
-            GetComponent<MeshRenderer>().material.color = new Color(0, 0, 255);
-            gameObject.AddComponent<BrainsActions>();
+            tag = "Brains";
+            hudCtrlr.SetPlayer1(transform);
+            transform.Find("characterMedium").GetComponent<SkinnedMeshRenderer>().material = brainsMaterial;
+            BrainsActions brainsActions = gameObject.AddComponent<BrainsActions>();
+            brainsActions.SetGrapple(brainsGrapple);
+            brainsActions.SetGravityBomb(gravityBomb);
+            GetComponent<Animator>().runtimeAnimatorController = brainsAnimController as RuntimeAnimatorController;
 
-            // Setup model & animator
         }
         else if (PlayerInstanceManager.instance.players.Count == 1)
         {
             // Setup Brawn
 
             name = "Brawn";
-            GetComponent<MeshRenderer>().material.color = new Color(255, 0, 0);
+            tag = "Brawn";
+            hudCtrlr.SetPlayer2(transform);
+            transform.Find("characterMedium").GetComponent<SkinnedMeshRenderer>().material = brawnMaterial;
             gameObject.AddComponent<BrawnActions>();
-
-            // Setup model & animator
+            GetComponent<Animator>().runtimeAnimatorController = brawnsAnimController as RuntimeAnimatorController;
         }
 
         PlayerInstanceManager.instance.players.Add(gameObject);
