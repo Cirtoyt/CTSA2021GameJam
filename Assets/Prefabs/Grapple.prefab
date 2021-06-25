@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 3973858494255229912}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2194767, y: 0.2194767, z: 0.2194767}
+  m_LocalScale: {x: 0.36646026, y: 0.36646026, z: 0.36646026}
   m_Children: []
   m_Father: {fileID: 3973858496302993705}
   m_RootOrder: 0
@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 64979b978de8f67478feaa1d7e33f197, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -111,7 +111,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3709227379149020456
 MonoBehaviour:
@@ -215,7 +215,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 1e212103b3938af4a8a592b6bd4ad895, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -284,4 +284,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   extensionSpeed: 35
   maxExtensionLength: 5.5
-  pullSpeed: 25
+  pullSpeed: 15
+  wallStoppingDistance: 1.6
+  enemyStoppingDistance: 1.2

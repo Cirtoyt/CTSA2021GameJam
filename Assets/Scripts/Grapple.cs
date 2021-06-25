@@ -7,6 +7,8 @@ public class Grapple : MonoBehaviour
     [SerializeField] private float extensionSpeed;
     [SerializeField] private float maxExtensionLength;
     [SerializeField] private float pullSpeed;
+    [SerializeField] private float wallStoppingDistance;
+    [SerializeField] private float enemyStoppingDistance;
 
     private PlayerHUDController hudctrlr;
     private Transform hook;
@@ -17,7 +19,9 @@ public class Grapple : MonoBehaviour
     private Vector3 direction;
     private bool isExtending;
     private bool pullTarget;
+    private Transform grabbedEnemy;
     private bool pullBrains;
+    private Vector3 grappleOnBrainsPos;
 
     void Start()
     {
@@ -45,16 +49,15 @@ public class Grapple : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 grappleOnBrainsPos = new Vector3(brains.position.x, brains.position.y + 1, brains.position.z);
-        transform.position = grappleOnBrainsPos;
+        grappleOnBrainsPos = new Vector3(brains.position.x, brains.position.y + 1, brains.position.z);
+
+        Vector3 ropeDir = (hook.position - transform.position).normalized;
+        float ropeLength = Vector3.Distance(transform.position, hook.position);
 
         if (isExtending)
         {
+            transform.position = grappleOnBrainsPos;
             hook.position += direction * extensionSpeed * Time.deltaTime;
-            Vector3 ropeDir = (hook.position - transform.position).normalized;
-            float ropeLength = Vector3.Distance(transform.position, hook.position);
-            rope.position = transform.position + (ropeDir * (ropeLength / 2));
-            ropeVisual.localScale = new Vector3(ropeVisual.localScale.x, ropeLength / 2, ropeVisual.localScale.z);
 
             if (ropeLength > maxExtensionLength)
             {
@@ -64,14 +67,43 @@ public class Grapple : MonoBehaviour
 
         if (pullBrains)
         {
+            Vector3 newPos = brains.transform.position + (ropeDir * pullSpeed * Time.deltaTime);
 
+            if (Vector3.Distance(brains.transform.position, hook.position) <= wallStoppingDistance)
+            {
+                brains.transform.position = newPos;
+                CancelGrapple();
+            }
+            else
+            {
+                brains.transform.position = newPos;
+            }
+        }
+        else if (pullTarget)
+        {
+            Vector3 newEnemyPos = grabbedEnemy.position + (-ropeDir * pullSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(brains.transform.position, grabbedEnemy.position) <= enemyStoppingDistance)
+            {
+                grabbedEnemy.position = newEnemyPos;
+                hook.position = new Vector3(newEnemyPos.x, newEnemyPos.y + 1, newEnemyPos.z);
+                CancelGrapple();
+            }
+            else
+            {
+                grabbedEnemy.position = newEnemyPos;
+                hook.position = new Vector3(newEnemyPos.x, newEnemyPos.y + 1, newEnemyPos.z);
+            }
         }
 
-        // Begin to move player transform (ignoring physics) towards grapple hook, stopping just before it (half player width + 10cm or something)
-        // , as well as shrink rope cylinder and reposition posortionally between player and hook at all times
-        // Once at end, turn on movement again and destroy grapple gameobject
+        UpdateRope(ropeDir, ropeLength);
+    }
 
-        //CancelGrapple();
+    private void UpdateRope(Vector3 ropeDir, float ropeLength)
+    {
+        
+        rope.position = grappleOnBrainsPos + (ropeDir * (ropeLength / 2));
+        ropeVisual.localScale = new Vector3(ropeVisual.localScale.x, ropeLength / 2, ropeVisual.localScale.z);
     }
 
     private void CancelGrapple()
@@ -90,6 +122,7 @@ public class Grapple : MonoBehaviour
         {
             Debug.Log("Grapple hit enemy");
             pullTarget = true;
+            grabbedEnemy = other.transform;
         }
         else
         {
