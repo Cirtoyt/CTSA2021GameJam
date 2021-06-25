@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7580149349967547026}
   - component: {fileID: 7580149349967547036}
   - component: {fileID: 7580149349967547037}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Absorbing Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4823,7 +4823,7 @@ GameObject:
   - component: {fileID: 7580149350032712250}
   - component: {fileID: 7580149350032712196}
   - component: {fileID: 7580149350032712197}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: Core Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9636,7 +9636,7 @@ GameObject:
   - component: {fileID: 7580149350550802016}
   - component: {fileID: 7580149350550802029}
   - component: {fileID: 7580149350550802018}
-  m_Layer: 12
+  m_Layer: 13
   m_Name: GravityBomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9674,6 +9674,11 @@ MonoBehaviour:
   duration: 8
   throwHeightAngle: 3
   throwStrength: 5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  pullForce: 2.2
+  enemiesEffected: []
 --- !u!54 &7580149350550802029
 Rigidbody:
   m_ObjectHideFlags: 0
