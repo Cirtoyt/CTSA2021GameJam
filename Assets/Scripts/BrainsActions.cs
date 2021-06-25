@@ -12,11 +12,13 @@ public class BrainsActions : MonoBehaviour
     [SerializeField] private float heavyAttackDamage = 50;
 
     private PlayerHUDController hudctrlr;
+    [SerializeField] private GameObject hackingMonitor;
 
     private void Start()
     {
         busy = false;
         hudctrlr = FindObjectOfType<PlayerHUDController>();
+        hackingMonitor = GameObject.Find("Control_Panel");
     }
 
     public void OnRegularAttack(InputValue value)
@@ -91,6 +93,7 @@ public class BrainsActions : MonoBehaviour
     public void OnInteract(InputValue value)
     {
         Debug.Log(name + " uses an interaction.");
+        hackingMonitor.GetComponent<HackingMonitor>().interactionCheck();
     }
 
     private IEnumerator StartAttackDelay(float seconds)
