@@ -42,7 +42,7 @@ public class BrawnActions : MonoBehaviour
         dashing = false;
         heavyAtkSpeed = 0.75f;
         heavyAtkRange = 9;
-        heavyAtkDamage = 0;
+        heavyAtkDamage = 9;
 
 
         SoloUltRadius = 4;
