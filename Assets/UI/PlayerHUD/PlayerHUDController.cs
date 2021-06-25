@@ -12,7 +12,7 @@ public class PlayerHUDController : MonoBehaviour
         NotReady,
     }
 
-    [SerializeField] private float barSmoothingSpeed = 0.1;
+    [SerializeField] private float barSmoothingSpeed = 1;
     [SerializeField] private float ultimateComboDistance = 3;
     [SerializeField] private float player1MaxHealth = 100;
     [SerializeField] private float player2MaxHealth = 100;
