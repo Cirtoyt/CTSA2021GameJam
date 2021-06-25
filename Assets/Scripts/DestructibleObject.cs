@@ -4,14 +4,29 @@ using UnityEngine;
 
 public class DestructibleObject : MonoBehaviour
 {
-    public GameObject interactionObject;
+    public bool holdsItem;
+
+    private ParticleSystem smokeEffect;
+    [SerializeField] private GameObject item;
+
+    private void Start()
+    {
+        smokeEffect = gameObject.GetComponentInChildren<ParticleSystem>();    
+    }
 
     public void startDestruction()
     {
         GetComponent<Collider>().enabled = false;
-        // Play cool VFX here
-        // Interact with item
+        GetComponent<MeshRenderer>().enabled = false;
+        smokeEffect.Play();
+        
+        if(holdsItem)
+        {
+            //Tell objective manager to spawn key here
+            Instantiate(item, transform.position, Quaternion.identity);
+            Debug.Log("Dropped item!");
+        }
 
-        Destroy(gameObject, 2);
+        Destroy(gameObject, smokeEffect.main.duration + smokeEffect.main.startLifetime.constantMax);
     }
 }

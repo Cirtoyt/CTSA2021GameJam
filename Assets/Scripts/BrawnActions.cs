@@ -82,7 +82,8 @@ public class BrawnActions : MonoBehaviour
 
     public void OnHeavyAttack(InputValue value)
     {
-        if (!busy && hudctrlr.CheckPlayer2HeavyAttackReady()) // replace true with if heavy attack gauge is charged
+        //if (!busy && hudctrlr.CheckPlayer2HeavyAttackReady())
+        if (!busy)
         {
             Debug.Log(name + " heavy attacks!");
             busy = true;
