@@ -15,15 +15,48 @@ public class ObjectiveManager : MonoBehaviour
     {
         itemsCollected = 0;
 
+        int[] randNums = new int[] { -1, -1, -1 };
+
+        for (int i = 0; i < randNums.Length; i++)
+        {
+            while (NotUnique(randNums[i], i))
+            {
+                randNums[i] = Random.Range(0, 100);
+            }
+        }
+
+        bool NotUnique(int _currentValue, int _currentIndex)
+        {
+            if (_currentValue > 0)
+            {
+                for (int i = 0; i < randNums.Length; i++)
+                {
+                    // if not the current element and the values match
+                    if (i != _currentIndex && _currentValue == randNums[i])
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         int boxWithItem = (int)Random.Range(0, numberOfBoxes - 1);
         for(int i = 0; i < numberOfBoxes; i++)
         {
             boxes.Add(Instantiate(boxPrefab, spawnPoints[i].transform.position, Quaternion.identity));
-
-            if (i == boxWithItem)
+            for (i = 0; i < randNums.Length; i++)
             {
-                boxes[i].GetComponent<DestructibleObject>().holdsItem = true;
-            }
+                if (i == boxWithItem)
+                {
+                    boxes[i].GetComponent<DestructibleObject>().holdsItem = true;
+                }
+            } 
         }
     }
 

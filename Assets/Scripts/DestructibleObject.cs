@@ -22,9 +22,7 @@ public class DestructibleObject : MonoBehaviour
         
         if(holdsItem)
         {
-            //Tell objective manager to spawn key here
             Instantiate(item, transform.position, Quaternion.identity);
-            Debug.Log("Dropped item!");
         }
 
         Destroy(gameObject, smokeEffect.main.duration + smokeEffect.main.startLifetime.constantMax);

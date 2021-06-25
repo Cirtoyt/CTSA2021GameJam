@@ -8,6 +8,7 @@ public class BrainsActions : MonoBehaviour
     public bool busy = false;
     private GameObject grapple;
     private GameObject gravityBomb;
+    private ParticleSystem gun;
     [SerializeField] private float regularAttackDelay = 0.35f;
     [SerializeField] private float regularAttackDamage = 20;
     [SerializeField] private float heavyAttackDamage = 50;
@@ -22,6 +23,7 @@ public class BrainsActions : MonoBehaviour
         hudctrlr = FindObjectOfType<PlayerHUDController>();
         anim = GetComponent<Animator>();
         hackingMonitor = GameObject.Find("Control_Panel");
+        gun = transform.Find("Brains LaserGun").GetComponent<ParticleSystem>();
     }
 
     public void OnRegularAttack(InputValue value)
@@ -29,11 +31,11 @@ public class BrainsActions : MonoBehaviour
         if (!busy)
         {
             Debug.Log(name + " regular attacks!");
+            // Note: Move damage dealing to enemy & ability gauge charging to animation event on moment of impact
+            gun.Play();
+
             busy = true;
             StartCoroutine(StartAttackDelay(regularAttackDelay));
-            // Note: Move damage dealing to enemy & ability gauge charging to animation event on moment of impact
-            hudctrlr.UpdatePlayer1HeavyAttackGauge(15);
-            hudctrlr.UpdateUltGauge(5);
         }
     }
 
