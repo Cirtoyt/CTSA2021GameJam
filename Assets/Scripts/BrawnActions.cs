@@ -82,8 +82,7 @@ public class BrawnActions : MonoBehaviour
 
     public void OnHeavyAttack(InputValue value)
     {
-        //if (!busy && hudctrlr.CheckPlayer2HeavyAttackReady())
-        if (!busy)
+        if (!busy && hudctrlr.CheckPlayer2HeavyAttackReady())
         {
             Debug.Log(name + " heavy attacks!");
             busy = true;

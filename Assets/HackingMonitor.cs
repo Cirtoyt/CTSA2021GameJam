@@ -43,6 +43,7 @@ public class HackingMonitor : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Brains walked into the zone");
         BrainsActions brains = other.GetComponent<BrainsActions>();
         if (brains != null)
         {
