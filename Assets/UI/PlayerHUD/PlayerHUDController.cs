@@ -17,12 +17,12 @@ public class PlayerHUDController : MonoBehaviour
     [SerializeField] private float player1MaxHealth = 100;
     [SerializeField] private float player2MaxHealth = 100;
     [SerializeField] private float maxUltimate = 100;
-    [SerializeField] private Slider player1HealthGauge;
-    [SerializeField] private Slider player2HealthGauge;
-    [SerializeField] private Slider player1HeavyAttackGauge;
-    [SerializeField] private Slider player2HeavyAttackGauge;
-    [SerializeField] private Slider ultLeftBar;
-    [SerializeField] private Slider ultRightBar;
+    public Slider player1HealthGauge;
+    public Slider player2HealthGauge;
+    public Slider player1HeavyAttackGauge;
+    public Slider player2HeavyAttackGauge;
+    public Slider ultLeftBar;
+    public Slider ultRightBar;
 
     private Transform player1;
     private Transform player2;
@@ -169,7 +169,7 @@ public class PlayerHUDController : MonoBehaviour
         {
             if (Vector3.Distance(player1.position, player2.position) <= ultimateComboDistance)
             {
-                return UltimateTypes.Combo;
+                return UltimateTypes.Single;
             }
             else
             {

@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Grapple : MonoBehaviour
 {
-    [SerializeField] private float extensionSpeed;
-    [SerializeField] private float maxExtensionLength;
-    [SerializeField] private float pullSpeed;
-    [SerializeField] private float wallStoppingDistance;
-    [SerializeField] private float enemyStoppingDistance;
+    [SerializeField] private float extensionSpeed = 35;
+    [SerializeField] private float maxExtensionLength = 5.5f;
+    [SerializeField] private float pullSpeed = 15;
+    [SerializeField] private float wallStoppingDistance = 1.6f;
+    [SerializeField] private float enemyStoppingDistance = 1.2f;
 
     private PlayerHUDController hudctrlr;
     private Transform hook;

@@ -10,8 +10,6 @@ public class BrawnActions : MonoBehaviour
 
     public bool busy = false;
     [SerializeField] private float regularAttackDelay = 0.35f;
-    [SerializeField] private float heavyAttackDelay = 1.0f;
-    [SerializeField] private float soloUltDelay = 2.0f;
 
     private float LightAtkCentre;
     private Vector3 LightAtkSize;
@@ -36,7 +34,7 @@ public class BrawnActions : MonoBehaviour
 
         LightAtkCentre = 1;
         LightAtkSize = new Vector3(1, 2, 1);
-        LightAtkDamage = 5;
+        LightAtkDamage = 10;
 
         myRigidBody = gameObject.GetComponent<Rigidbody>();
         dashing = false;
@@ -69,8 +67,8 @@ public class BrawnActions : MonoBehaviour
                 Debug.Log("Hit : " + enemiesHit[i].gameObject.name + i);
                 enemiesHit[i].GetComponent<Base_Enemy>().gotHit(LightAtkDamage);
 
-                hudctrlr.UpdatePlayer2HeavyAttackGauge(15);
-                hudctrlr.UpdateUltGauge(5);
+                hudctrlr.UpdatePlayer2HeavyAttackGauge(35);
+                hudctrlr.UpdateUltGauge(20);
 
                 i++;
             }

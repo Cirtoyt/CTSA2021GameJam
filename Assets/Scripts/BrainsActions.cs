@@ -10,8 +10,6 @@ public class BrainsActions : MonoBehaviour
     private GameObject gravityBomb;
     private ParticleSystem gun;
     [SerializeField] private float regularAttackDelay = 0.35f;
-    [SerializeField] private float regularAttackDamage = 20;
-    [SerializeField] private float heavyAttackDamage = 50;
 
     private PlayerHUDController hudctrlr;
     private Animator anim;
@@ -77,12 +75,6 @@ public class BrainsActions : MonoBehaviour
             hudctrlr.ResetUltimateGauge();
         }
     }
-
-    // Write ult impact event
-    // Spawns 'gravity bomb' game object
-    // Gravity Bomb begins playing sprite system on start
-    // Gravity Bomb in update constantly draws enemies in-range aroudn bomb towards itself
-    // Also counts up lifespan and destroys itself at time limit, spawning a on-death particle system that plays a splat then kills itself I guess
 
     public void OnInteract(InputValue value)
     {

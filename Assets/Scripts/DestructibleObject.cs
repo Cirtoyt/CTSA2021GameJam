@@ -7,7 +7,7 @@ public class DestructibleObject : MonoBehaviour
     public bool holdsItem;
 
     private ParticleSystem smokeEffect;
-    [SerializeField] private GameObject item;
+    public GameObject item;
 
     private void Start()
     {

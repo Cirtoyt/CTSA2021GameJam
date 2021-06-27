@@ -30,8 +30,8 @@ public class brainsLaserCollisions : MonoBehaviour
         if (other.layer == 8)
         {
             other.GetComponent<Base_Enemy>().gotHit(20);
-            hudctrlr.UpdatePlayer1HeavyAttackGauge(15);
-            hudctrlr.UpdateUltGauge(5);
+            hudctrlr.UpdatePlayer1HeavyAttackGauge(35);
+            hudctrlr.UpdateUltGauge(20);
         }
     }
 }

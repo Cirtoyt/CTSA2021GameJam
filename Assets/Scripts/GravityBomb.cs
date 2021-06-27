@@ -5,11 +5,11 @@ using UnityEngine.AI;
 
 public class GravityBomb : MonoBehaviour
 {
-    [SerializeField] private float duration;
-    [SerializeField] private float throwHeightAngle;
-    [SerializeField] private float throwStrength;
-    [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private float pullForce;
+    [SerializeField] private float duration = 8;
+    [SerializeField] private float throwHeightAngle = 3;
+    [SerializeField] private float throwStrength = 5;
+    public LayerMask enemyLayer;
+    [SerializeField] private float pullForce = 2.2f;
 
     private float elapsed;
     [SerializeField] private List<Transform> enemiesEffected = new List<Transform>();
